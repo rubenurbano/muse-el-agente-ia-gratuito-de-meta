@@ -1,0 +1,2716 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Muse AI — El Agente IA Gratuito de Meta | Tutorial interactivo</title>
+<meta name="description" content="Tutorial interactivo para principiantes sobre Muse AI, el agente autónomo gratuito de Meta: registro, imágenes, vídeo, apps, juegos, WhatsApp y automatizaciones.">
+<style>
+/* ============================================================
+   VARIABLES / TEMAS
+   ============================================================ */
+:root{
+  --bg:#0a0e1a;
+  --bg2:#0b1120;
+  --card:#0f172a;
+  --accent:#1e3a5f;
+  --text:#e2e8f0;
+  --muted:#94a3b8;
+  --border:#1e293b;
+  --link:#38bdf8;
+  --ok:#22c55e;
+  --bad:#ef4444;
+  --warn:#f59e0b;
+  --code-bg:#0b1120;
+  --code-fg:#bae6fd;
+  --radius:14px;
+  --fs:16px;
+}
+body.light{
+  --bg:#eef2f7;
+  --bg2:#ffffff;
+  --card:#ffffff;
+  --accent:#dbeafe;
+  --text:#0f172a;
+  --muted:#475569;
+  --border:#cbd5e1;
+  --link:#0369a1;
+  --code-bg:#f8fafc;
+  --code-fg:#0f172a;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:var(--fs,16px);
+  line-height:1.66;
+  -webkit-text-size-adjust:100%;
+  transition:background .25s ease,color .25s ease;
+}
+img,svg{max-width:100%}
+a{color:var(--link);text-decoration:none;border-bottom:1px dotted var(--link)}
+a:hover{text-decoration:underline}
+p{margin:0 0 .9em}
+ul,ol{margin:0 0 1em;padding-left:1.25em}
+li{margin:.3em 0}
+strong{color:var(--text)}
+code{
+  background:var(--code-bg);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:1px 6px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:.9em;
+  color:var(--code-fg);
+  word-break:break-word;
+}
+hr{border:0;border-top:1px solid var(--border);margin:22px 0}
+
+/* ============================================================
+   TOPBAR
+   ============================================================ */
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:60;
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  box-shadow:0 6px 22px rgba(0,0,0,.35);
+}
+body.light .topbar{box-shadow:0 6px 18px rgba(15,23,42,.08)}
+
+.bar-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 12px 4px;
+  max-width:1080px;
+  margin:0 auto;
+}
+.brand{
+  font-weight:800;
+  font-size:.98rem;
+  letter-spacing:.4px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  white-space:nowrap;
+}
+.brand .dot{
+  width:10px;height:10px;border-radius:50%;
+  background:var(--link);
+  box-shadow:0 0 10px var(--link);
+  animation:pulseDot 1.8s ease-in-out infinite;
+}
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.75)}}
+
+.tools{display:flex;flex-wrap:wrap;gap:6px;align-items:center;flex:1 1 auto;justify-content:flex-end}
+#searchInput{
+  background:var(--card);
+  border:1px solid var(--border);
+  color:var(--text);
+  border-radius:9px;
+  padding:7px 10px;
+  font-size:.86rem;
+  min-width:110px;
+  flex:1 1 130px;
+  max-width:220px;
+}
+#searchInput::placeholder{color:var(--muted)}
+#searchInput:focus{outline:2px solid var(--link);outline-offset:1px}
+
+.tool{
+  background:var(--card);
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:7px 10px;
+  font-size:.82rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:.18s;
+  white-space:nowrap;
+}
+.tool:hover{background:var(--accent);border-color:var(--link)}
+
+/* Tabs */
+.tabs{
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  padding:8px 12px 10px;
+  max-width:1080px;
+  margin:0 auto;
+  scrollbar-width:thin;
+}
+.tabs::-webkit-scrollbar{height:5px}
+.tabs::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px}
+.tab{
+  flex:0 0 auto;
+  background:transparent;
+  color:var(--muted);
+  border:1px solid transparent;
+  border-radius:999px;
+  padding:7px 14px;
+  font-size:.8rem;
+  font-weight:700;
+  letter-spacing:.4px;
+  cursor:pointer;
+  transition:.18s;
+  white-space:nowrap;
+}
+.tab:hover{color:var(--text);background:var(--card)}
+.tab.active{
+  background:var(--accent);
+  color:var(--text);
+  border-color:var(--link);
+  box-shadow:0 0 0 1px rgba(56,189,248,.25),0 4px 14px rgba(56,189,248,.15);
+}
+.tab:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+
+/* Progress */
+.progress-wrap{
+  height:4px;
+  background:var(--border);
+  position:relative;
+  max-width:1080px;
+  margin:0 auto 0;
+  border-radius:0 0 4px 4px;
+  overflow:hidden;
+}
+#progressFill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#38bdf8,#818cf8);
+  transition:width .35s ease;
+}
+.progress-line{
+  max-width:1080px;
+  margin:0 auto;
+  padding:0 12px 6px;
+  font-size:.72rem;
+  color:var(--muted);
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+main{
+  max-width:960px;
+  margin:0 auto;
+  padding:20px 14px 90px;
+}
+.panel{display:none;animation:fadeUp .35s ease}
+.panel.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+h1{
+  font-size:1.65rem;
+  line-height:1.25;
+  margin:0 0 6px;
+  letter-spacing:-.4px;
+}
+h2{
+  font-size:1.22rem;
+  margin:30px 0 12px;
+  padding-left:11px;
+  border-left:4px solid var(--link);
+  line-height:1.3;
+}
+h3{
+  font-size:1.03rem;
+  margin:22px 0 8px;
+  color:var(--text);
+}
+h4{font-size:.95rem;margin:16px 0 6px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+.hero-sub{color:var(--muted);font-size:.98rem;margin:0 0 14px}
+.lead{font-size:1.02rem;color:var(--text)}
+
+/* Tarjetas */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:16px 16px 8px;
+  margin:0 0 16px;
+  box-shadow:0 4px 18px rgba(0,0,0,.18);
+}
+body.light .card{box-shadow:0 4px 14px rgba(15,23,42,.06)}
+.card > :last-child{margin-bottom:8px}
+
+/* Bloque SVG */
+.hero-svg-mount{
+  width:100%;
+  max-width:820px;
+  margin:6px auto 6px;
+  min-height:110px;
+  border-radius:16px;
+  overflow:hidden;
+}
+.hero-svg-mount svg{display:block;width:100%;height:auto}
+.hero-svg-mount img{display:block;width:100%;height:auto}
+.svg-caption{
+  text-align:center;
+  color:var(--muted);
+  font-size:.83rem;
+  margin:2px auto 18px;
+  max-width:640px;
+}
+
+/* Avisos */
+.tip,.warn,.bad,.ok,.note{
+  border-radius:0 10px 10px 0;
+  padding:11px 13px;
+  margin:12px 0;
+  font-size:.94rem;
+  border-left:4px solid var(--link);
+  background:rgba(56,189,248,.08);
+}
+.tip{border-left-color:var(--link);background:rgba(56,189,248,.08)}
+.ok{border-left-color:var(--ok);background:rgba(34,197,94,.09)}
+.bad{border-left-color:var(--bad);background:rgba(239,68,68,.09)}
+.warn{border-left-color:var(--warn);background:rgba(245,158,11,.1)}
+.note{border-left-color:var(--muted);background:rgba(148,163,184,.1)}
+.tip strong,.warn strong,.bad strong,.ok strong{display:inline}
+
+/* Pasos */
+.step{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-left:4px solid var(--accent);
+  border-radius:0 12px 12px 0;
+  padding:12px 14px;
+  margin:0 0 12px;
+}
+.step-num{
+  display:inline-block;
+  background:var(--accent);
+  color:var(--text);
+  font-size:.72rem;
+  font-weight:800;
+  letter-spacing:.7px;
+  padding:2px 9px;
+  border-radius:999px;
+  margin-bottom:6px;
+}
+.step p{margin:0 0 .55em}
+.step p:last-child{margin-bottom:0}
+
+/* Prompt / bloques copiables */
+.copy-wrap{position:relative;margin:12px 0}
+.copy-src{
+  background:var(--code-bg);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:12px 96px 12px 13px;
+  white-space:pre-wrap;
+  word-break:break-word;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:.87rem;
+  line-height:1.55;
+  margin:0;
+  color:var(--code-fg);
+}
+.copyBtn{
+  position:absolute;
+  top:8px;
+  right:8px;
+  background:var(--accent);
+  color:var(--text);
+  border:1px solid rgba(56,189,248,.4);
+  border-radius:8px;
+  padding:5px 11px;
+  font-size:.7rem;
+  font-weight:800;
+  letter-spacing:.6px;
+  cursor:pointer;
+  transition:.18s;
+}
+.copyBtn:hover{background:var(--link);color:#04121f;border-color:var(--link)}
+.copyBtn.ok{background:var(--ok);color:#04121f;border-color:var(--ok)}
+
+/* Tablas */
+.table-wrap{
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  margin:12px 0 18px;
+  border-radius:12px;
+  border:1px solid var(--border);
+}
+table{width:100%;border-collapse:collapse;min-width:520px;font-size:.9rem}
+th,td{border:1px solid var(--border);padding:9px 11px;text-align:left;vertical-align:top}
+th{background:var(--accent);color:var(--text);font-weight:700;font-size:.85rem;letter-spacing:.2px}
+tbody tr:nth-child(even){background:rgba(148,163,184,.05)}
+
+/* Acordeones */
+details.acc{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  margin:0 0 10px;
+  overflow:hidden;
+}
+details.acc > summary{
+  cursor:pointer;
+  padding:12px 14px;
+  font-weight:700;
+  font-size:.95rem;
+  list-style:none;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  transition:.18s;
+}
+details.acc > summary::-webkit-details-marker{display:none}
+details.acc > summary::before{
+  content:"+";
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:20px;height:20px;
+  flex:0 0 20px;
+  border-radius:6px;
+  background:var(--accent);
+  color:var(--text);
+  font-size:.85rem;
+  font-weight:800;
+  transition:.2s;
+}
+details.acc[open] > summary::before{content:"−";background:var(--link);color:#04121f}
+details.acc > summary:hover{background:rgba(56,189,248,.07)}
+.acc-body{padding:0 14px 12px;border-top:1px solid var(--border);padding-top:12px}
+.acc-body > :last-child{margin-bottom:0}
+
+/* Checklists */
+.ck-list{list-style:none;padding:0;margin:10px 0}
+.ck-list li{margin:0 0 6px}
+.ck-item{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:9px 11px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:var(--card);
+  cursor:pointer;
+  transition:.16s;
+  font-size:.93rem;
+}
+.ck-item:hover{border-color:var(--link)}
+.ck-item input{
+  appearance:none;
+  -webkit-appearance:none;
+  width:20px;height:20px;
+  flex:0 0 20px;
+  margin:2px 0 0;
+  border:2px solid var(--muted);
+  border-radius:6px;
+  background:transparent;
+  cursor:pointer;
+  position:relative;
+  transition:.16s;
+}
+.ck-item input:checked{background:var(--ok);border-color:var(--ok)}
+.ck-item input:checked::after{
+  content:"✓";
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#04121f;
+  font-size:.8rem;
+  font-weight:900;
+}
+.ck-item input:checked ~ span{opacity:.72;text-decoration:line-through}
+.ck-item span{flex:1 1 auto}
+
+/* Cuadrícula de tarjetas */
+.grid{display:grid;grid-template-columns:1fr;gap:12px;margin:12px 0}
+@media(min-width:620px){.grid{grid-template-columns:1fr 1fr}}
+.mini{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:13px 14px;
+}
+.mini h4{margin:0 0 5px;color:var(--link);text-transform:none;letter-spacing:0;font-size:.95rem}
+.mini p{margin:0;font-size:.9rem;color:var(--muted)}
+
+/* Créditos */
+.author-card{
+  background:linear-gradient(135deg,var(--accent) 0%,var(--card) 100%);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:26px 20px;
+  text-align:center;
+  margin:6px 0 18px;
+}
+body.light .author-card{background:linear-gradient(135deg,#dbeafe 0%,#ffffff 100%)}
+.author-name{
+  font-size:2rem;
+  font-weight:900;
+  letter-spacing:-.6px;
+  margin:0 0 4px;
+  background:linear-gradient(90deg,#38bdf8,#818cf8);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  line-height:1.15;
+}
+body.light .author-name{background:linear-gradient(90deg,#0369a1,#4f46e5);-webkit-background-clip:text;background-clip:text;color:transparent}
+.author-role{color:var(--muted);font-size:.95rem;margin:0;font-weight:600;letter-spacing:.4px}
+.meta-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+  margin-top:18px;
+}
+.meta-chip{
+  background:rgba(0,0,0,.22);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:8px 13px;
+  font-size:.82rem;
+  color:var(--text);
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+body.light .meta-chip{background:#f1f5f9}
+
+/* Botón volver arriba */
+.to-top{
+  position:fixed;
+  right:14px;
+  bottom:16px;
+  width:46px;height:46px;
+  border-radius:50%;
+  border:1px solid var(--border);
+  background:var(--accent);
+  color:var(--text);
+  font-size:20px;
+  line-height:1;
+  cursor:pointer;
+  display:none;
+  z-index:70;
+  box-shadow:0 6px 20px rgba(0,0,0,.4);
+  transition:.2s;
+}
+.to-top.show{display:block}
+.to-top:hover{background:var(--link);color:#04121f}
+
+/* Aviso de impresión */
+#printWarn{
+  display:none;
+  position:fixed;
+  left:12px;right:12px;bottom:12px;
+  z-index:90;
+  background:#7c2d12;
+  color:#fff;
+  border:1px solid #f59e0b;
+  border-radius:12px;
+  padding:12px 44px 12px 14px;
+  font-size:.88rem;
+  box-shadow:0 10px 30px rgba(0,0,0,.5);
+}
+#printWarn.show{display:block}
+#printWarn button{
+  position:absolute;
+  top:8px;right:8px;
+  background:transparent;
+  border:0;
+  color:#fff;
+  font-size:1.1rem;
+  cursor:pointer;
+  line-height:1;
+}
+
+/* Resaltado de búsqueda */
+mark.search-hl{
+  background:#facc15;
+  color:#1a1a1a;
+  border-radius:3px;
+  padding:0 2px;
+}
+
+/* Estado de resultados de búsqueda */
+#searchInfo{
+  font-size:.75rem;
+  color:var(--muted);
+  padding:0 12px 6px;
+  max-width:1080px;
+  margin:0 auto;
+  min-height:14px;
+}
+
+/* ============================================================
+   IMPRESIÓN / PDF
+   ============================================================ */
+@media print{
+  @page{ size:A4 portrait; margin:14mm 12mm; }
+
+  html,body{
+    background:#fff !important;
+    color:#000 !important;
+    padding:0 !important;
+    margin:0 !important;
+    font-size:11pt !important;
+  }
+
+  /* Ocultar interfaz */
+  .topbar, .tabs, nav, .to-top, .copyBtn, .progress-wrap, .progress-line,
+  #searchInput, #searchInfo, #printWarn, .noprint{ display:none !important; }
+
+  /* Mostrar TODOS los paneles en flujo continuo */
+  .panel{
+    display:block !important;
+    page-break-after:auto !important;
+    animation:none !important;
+  }
+
+  /* Contenedores del SVG visibles */
+  [data-svg-hero]{ display:block !important; page-break-inside:avoid; }
+  [data-svg-hero] svg{
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  .hero-svg-mount{ max-width:100% !important; margin:0 auto 6px !important; }
+
+  .card,.step,.mini,details.acc{
+    background:#fff !important;
+    color:#000 !important;
+    border:1px solid #999 !important;
+    box-shadow:none !important;
+    break-inside:avoid;
+  }
+
+  h1,h2,h3,h4,.author-name,.author-role,.hero-sub,.lead{
+    background:none !important;
+    -webkit-text-fill-color:#000 !important;
+    color:#000 !important;
+    background-clip:border-box !important;
+    border-color:#555 !important;
+  }
+  h2{border-left:4px solid #555 !important;padding-left:9px !important}
+
+  p,li,td,th,span,strong,em{color:#000 !important}
+
+  /* No recortar contenido */
+  pre, table, .copy-src, .table-wrap{
+    overflow:visible !important;
+    white-space:pre-wrap !important;
+    word-break:break-word !important;
+  }
+  .table-wrap{border:1px solid #999 !important}
+  table{min-width:0 !important;width:100% !important;font-size:9.5pt !important}
+  th{background:#e5e7eb !important;color:#000 !important}
+  td{background:#fff !important;color:#000 !important}
+
+  .copy-src{
+    background:#f3f4f6 !important;
+    color:#000 !important;
+    border:1px solid #999 !important;
+    padding:10px !important;
+    font-size:9.5pt !important;
+  }
+
+  .tip,.warn,.bad,.ok,.note{
+    background:#f7f7f7 !important;
+    color:#000 !important;
+    border-left:4px solid #555 !important;
+  }
+
+  mark.search-hl{ background:transparent !important; color:inherit !important; padding:0 !important; }
+
+  a{ color:#000 !important; text-decoration:underline; border:0 !important }
+
+  details.acc{ border:1px solid #999 !important }
+  details.acc > summary{ color:#000 !important; background:#f0f0f0 !important }
+  details.acc > summary::before{ background:#555 !important; color:#fff !important }
+
+  .ck-item{ border:1px solid #999 !important; background:#fff !important; break-inside:avoid }
+  .ck-item input{ border-color:#333 !important }
+  .ck-item input:checked{ background:#333 !important; border-color:#333 !important }
+  .ck-item input:checked::after{ color:#fff !important }
+  .ck-item input:checked ~ span{ text-decoration:none !important; opacity:1 !important }
+
+  .author-card{ background:#fff !important; border:1px solid #999 !important }
+  .meta-chip{ background:#f1f5f9 !important; color:#000 !important; border:1px solid #999 !important }
+
+  .svg-caption{ color:#333 !important }
+}
+
+@media (max-width:480px){
+  h1{font-size:1.42rem}
+  h2{font-size:1.1rem}
+  .author-name{font-size:1.6rem}
+  main{padding:16px 11px 80px}
+  .card{padding:14px 13px 6px}
+  .copy-src{padding:11px 82px 11px 11px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     SVG FUENTE OCULTO — único lugar donde existe el dibujo.
+     JavaScript extrae la plantilla y elimina este nodo del DOM.
+     ============================================================ -->
+<svg id="svgHeroSource" xmlns="http://www.w3.org/2000/svg" width="0" height="0"
+     style="position:absolute;width:0;height:0;overflow:hidden;pointer-events:none"
+     aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="gBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0a0e1a"/>
+    </linearGradient>
+    <linearGradient id="gAcc" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+    <linearGradient id="gCard" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#16203a"/>
+      <stop offset="100%" stop-color="#111a2e"/>
+    </linearGradient>
+    <radialGradient id="gGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.42"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="fGlow" x="-70%" y="-70%" width="240%" height="240%">
+      <feGaussianBlur stdDeviation="3.5" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <pattern id="gGrid" width="26" height="26" patternUnits="userSpaceOnUse">
+      <path d="M26 0 H0 V26" fill="none" stroke="#1e3a5f" stroke-width="1" opacity="0.4"/>
+    </pattern>
+  </defs>
+
+  <g id="svgHero">
+    <!-- Fondo -->
+    <rect x="0" y="0" width="820" height="260" rx="18" fill="url(#gBg)"/>
+    <rect x="0" y="0" width="820" height="260" rx="18" fill="url(#gGrid)"/>
+    <rect x="0.75" y="0.75" width="818.5" height="258.5" rx="18" fill="none"
+          stroke="#1e3a5f" stroke-width="1.5"/>
+
+    <!-- Halo central -->
+    <ellipse cx="415" cy="145" rx="155" ry="98" fill="url(#gGlow)">
+      <animate attributeName="opacity" values="0.45;0.95;0.45" dur="5s" repeatCount="indefinite"/>
+    </ellipse>
+
+    <!-- Nube 24/7 -->
+    <g>
+      <animateTransform attributeName="transform" type="translate"
+                        values="0 0; 0 -5; 0 0" dur="4.5s" repeatCount="indefinite"/>
+      <g fill="#1e3a5f" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.45">
+        <circle cx="392" cy="28" r="13"/>
+        <circle cx="415" cy="22" r="18"/>
+        <circle cx="438" cy="29" r="12"/>
+        <rect x="390" y="28" width="52" height="11" rx="5.5"/>
+      </g>
+      <circle cx="415" cy="24" r="3" fill="#38bdf8" filter="url(#fGlow)">
+        <animate attributeName="opacity" values="1;0.25;1" dur="2.2s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+    <text x="415" y="53" text-anchor="middle" font-family="sans-serif"
+          font-size="10" font-weight="700" letter-spacing="1.6" fill="#7dd3fc">NUBE 24/7</text>
+
+    <!-- Teléfono (WhatsApp) -->
+    <g>
+      <rect x="30" y="80" width="80" height="140" rx="14" fill="#0b1220"
+            stroke="#1e3a5f" stroke-width="2"/>
+      <rect x="55" y="85" width="30" height="3.5" rx="1.75" fill="#1e3a5f"/>
+      <rect x="37" y="92" width="66" height="118" rx="8" fill="#0d1526"/>
+
+      <!-- Burbujas de chat -->
+      <rect x="43" y="100" width="42" height="11" rx="5.5" fill="#1e3a5f">
+        <animate attributeName="opacity" values="0;0;1;1;0;0"
+                 keyTimes="0;0.08;0.2;0.82;0.94;1" dur="6s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="52" y="116" width="44" height="11" rx="5.5" fill="#38bdf8" opacity="0.9">
+        <animate attributeName="opacity" values="0;0;1;1;0;0"
+                 keyTimes="0;0.2;0.32;0.82;0.94;1" dur="6s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="43" y="132" width="36" height="11" rx="5.5" fill="#1e3a5f">
+        <animate attributeName="opacity" values="0;0;1;1;0;0"
+                 keyTimes="0;0.34;0.46;0.82;0.94;1" dur="6s" repeatCount="indefinite"/>
+      </rect>
+
+      <!-- Onda de nota de voz -->
+      <g fill="#38bdf8">
+        <rect x="45" y="158" width="7" height="4" rx="3.5">
+          <animate attributeName="height" values="4;12;6;4" dur="1.4s" repeatCount="indefinite"/>
+          <animate attributeName="y" values="158;150;156;158" dur="1.4s" repeatCount="indefinite"/>
+        </rect>
+        <rect x="57" y="154" width="7" height="8" rx="3.5">
+          <animate attributeName="height" values="8;16;10;8" dur="1.4s" begin="0.12s" repeatCount="indefinite"/>
+          <animate attributeName="y" values="154;146;152;154" dur="1.4s" begin="0.12s" repeatCount="indefinite"/>
+        </rect>
+        <rect x="69" y="150" width="7" height="12" rx="3.5">
+          <animate attributeName="height" values="12;6;14;12" dur="1.4s" begin="0.24s" repeatCount="indefinite"/>
+          <animate attributeName="y" values="150;156;148;150" dur="1.4s" begin="0.24s" repeatCount="indefinite"/>
+        </rect>
+        <rect x="81" y="156" width="7" height="6" rx="3.5">
+          <animate attributeName="height" values="6;14;8;6" dur="1.4s" begin="0.36s" repeatCount="indefinite"/>
+          <animate attributeName="y" values="156;148;154;156" dur="1.4s" begin="0.36s" repeatCount="indefinite"/>
+        </rect>
+      </g>
+      <rect x="44" y="186" width="52" height="6" rx="3" fill="#1e3a5f" opacity="0.7">
+        <animate attributeName="opacity" values="0.35;0.9;0.35" dur="2.6s" repeatCount="indefinite"/>
+      </rect>
+    </g>
+
+    <!-- Conexión teléfono → monitor -->
+    <path d="M112,150 C180,150 210,140 286,140" fill="none"
+          stroke="#1e3a5f" stroke-width="2" stroke-dasharray="6 6">
+      <animate attributeName="stroke-dashoffset" values="0;-24" dur="1.2s" repeatCount="indefinite"/>
+    </path>
+    <circle r="4" fill="#38bdf8" filter="url(#fGlow)">
+      <animateMotion dur="2.4s" repeatCount="indefinite"
+                     path="M112,150 C180,150 210,140 286,140"/>
+    </circle>
+
+    <!-- Monitor: computadora virtual -->
+    <rect x="290" y="62" width="250" height="156" rx="14" fill="#0b1220"
+          stroke="#1e3a5f" stroke-width="2"/>
+    <rect x="290" y="62" width="250" height="156" rx="14" fill="none"
+          stroke="url(#gAcc)" stroke-width="2" opacity="0.75">
+      <animate attributeName="opacity" values="0.35;0.95;0.35" dur="3.6s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="300" y="72" width="230" height="136" rx="8" fill="#0d1526"/>
+
+    <!-- Subagentes en órbita -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate"
+                        from="0 415 142" to="360 415 142"
+                        dur="11s" repeatCount="indefinite"/>
+      <circle cx="467" cy="142" r="6" fill="#818cf8" opacity="0.9" filter="url(#fGlow)"/>
+      <rect x="383" y="91" width="12" height="12" rx="3" fill="#38bdf8" opacity="0.85"/>
+      <circle cx="389" cy="187" r="5.5" fill="#22d3ee" opacity="0.85"/>
+    </g>
+
+    <!-- Robot (avatar del agente) -->
+    <g>
+      <animateTransform attributeName="transform" type="translate"
+                        values="0 0; 0 -3; 0 0" dur="3.4s" repeatCount="indefinite"/>
+      <!-- antena -->
+      <line x1="415" y1="88" x2="415" y2="98" stroke="#38bdf8" stroke-width="2"/>
+      <circle cx="415" cy="84" r="4" fill="#38bdf8" filter="url(#fGlow)">
+        <animate attributeName="r" values="4;5.6;4" dur="1.6s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="1;0.45;1" dur="1.6s" repeatCount="indefinite"/>
+      </circle>
+      <!-- cabeza -->
+      <circle cx="415" cy="118" r="22" fill="#152036" stroke="url(#gAcc)" stroke-width="2"/>
+      <!-- ojos -->
+      <circle cx="407" cy="115" r="3.5" fill="#38bdf8">
+        <animate attributeName="r" values="3.5;3.5;0.6;3.5"
+                 keyTimes="0;0.88;0.94;1" dur="4.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="423" cy="115" r="3.5" fill="#38bdf8">
+        <animate attributeName="r" values="3.5;3.5;0.6;3.5"
+                 keyTimes="0;0.88;0.94;1" dur="4.5s" repeatCount="indefinite"/>
+      </circle>
+      <!-- boca -->
+      <path d="M406,128 Q415,135 424,128" fill="none" stroke="#7dd3fc"
+            stroke-width="2" stroke-linecap="round"/>
+      <!-- cuerpo -->
+      <rect x="393" y="142" width="44" height="30" rx="10" fill="#152036"
+            stroke="#1e3a5f" stroke-width="2"/>
+      <!-- manos tecleando -->
+      <circle cx="399" cy="173" r="5" fill="#38bdf8" opacity="0.9">
+        <animate attributeName="cy" values="173;168;173" dur="0.55s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="431" cy="170" r="5" fill="#38bdf8" opacity="0.9">
+        <animate attributeName="cy" values="170;175;170" dur="0.62s" repeatCount="indefinite"/>
+      </circle>
+      <!-- teclado -->
+      <rect x="378" y="176" width="74" height="7" rx="3.5" fill="#1e3a5f"/>
+    </g>
+
+    <!-- Pie del monitor -->
+    <rect x="398" y="218" width="34" height="12" fill="#1e3a5f"/>
+    <rect x="372" y="230" width="86" height="8" rx="4" fill="#1e3a5f"/>
+
+    <!-- Conexiones monitor → resultados -->
+    <g fill="none" stroke="#1e3a5f" stroke-width="2">
+      <path d="M540,140 L600,140"/>
+      <path d="M600,76 L600,186"/>
+      <path d="M600,76 L646,76"/>
+      <path d="M600,131 L646,131"/>
+      <path d="M600,186 L646,186"/>
+    </g>
+
+    <!-- Paquetes de datos hacia los resultados -->
+    <circle r="4" fill="#38bdf8" filter="url(#fGlow)">
+      <animateMotion dur="2.8s" repeatCount="indefinite"
+                     path="M540,140 L600,140 L600,76 L646,76"/>
+    </circle>
+    <circle r="4" fill="#818cf8" filter="url(#fGlow)">
+      <animateMotion dur="2.8s" begin="0.9s" repeatCount="indefinite"
+                     path="M540,140 L600,140 L600,131 L646,131"/>
+    </circle>
+    <circle r="4" fill="#22d3ee" filter="url(#fGlow)">
+      <animateMotion dur="2.8s" begin="1.8s" repeatCount="indefinite"
+                     path="M540,140 L600,140 L600,186 L646,186"/>
+    </circle>
+
+    <!-- Resultados -->
+    <g>
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
+      <rect x="650" y="55" width="142" height="42" rx="11" fill="url(#gCard)"
+            stroke="#1e3a5f" stroke-width="1.5"/>
+      <rect x="662" y="66" width="20" height="20" rx="5" fill="#1e3a5f"
+            stroke="#38bdf8" stroke-width="1.2"/>
+      <circle cx="668" cy="72" r="2.4" fill="#38bdf8"/>
+      <path d="M664,82 L670,75 L675,80 L678,77 L680,82 Z" fill="#38bdf8" opacity="0.75"/>
+      <text x="692" y="81" font-family="sans-serif" font-size="13" fill="#cbd5e1">Imagen</text>
+    </g>
+    <g>
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" begin="0.6s" repeatCount="indefinite"/>
+      <rect x="650" y="110" width="142" height="42" rx="11" fill="url(#gCard)"
+            stroke="#1e3a5f" stroke-width="1.5"/>
+      <rect x="662" y="121" width="20" height="20" rx="5" fill="#1e3a5f"
+            stroke="#818cf8" stroke-width="1.2"/>
+      <path d="M669,127 L677,131 L669,135 Z" fill="#818cf8"/>
+      <text x="692" y="136" font-family="sans-serif" font-size="13" fill="#cbd5e1">Vídeo</text>
+    </g>
+    <g>
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" begin="1.2s" repeatCount="indefinite"/>
+      <rect x="650" y="165" width="142" height="42" rx="11" fill="url(#gCard)"
+            stroke="#1e3a5f" stroke-width="1.5"/>
+      <rect x="662" y="176" width="20" height="20" rx="5" fill="#1e3a5f"
+            stroke="#22d3ee" stroke-width="1.2"/>
+      <path d="M666,181 h12 M666,186 h12 M666,191 h7" stroke="#22d3ee"
+            stroke-width="1.6" stroke-linecap="round"/>
+      <text x="692" y="191" font-family="sans-serif" font-size="13" fill="#cbd5e1">App · Juego</text>
+    </g>
+
+    <!-- Etiquetas inferiores -->
+    <text x="70" y="240" text-anchor="middle" font-family="sans-serif"
+          font-size="10.5" fill="#64748b">Tú · WhatsApp</text>
+    <text x="415" y="252" text-anchor="middle" font-family="sans-serif"
+          font-size="10.5" fill="#64748b">Computadora virtual · Agente + subagentes</text>
+    <text x="721" y="228" text-anchor="middle" font-family="sans-serif"
+          font-size="10.5" fill="#64748b">Resultados</text>
+  </g>
+</svg>
+
+<!-- ============================================================
+     TOPBAR
+     ============================================================ -->
+<header class="topbar">
+  <div class="bar-row">
+    <div class="brand"><span class="dot"></span> Muse AI · Tutorial</div>
+    <div class="tools">
+      <input id="searchInput" type="search" placeholder="Buscar en el tutorial…"
+             aria-label="Buscar en el tutorial" autocomplete="off">
+      <button id="btnMinus" class="tool" type="button" title="Reducir tamaño del texto">A−</button>
+      <button id="btnPlus" class="tool" type="button" title="Aumentar tamaño del texto">A+</button>
+      <button id="btnTheme" class="tool" type="button">☀️ Claro</button>
+      <button id="btnPrint" class="tool" type="button">🖨️ Guardar PDF</button>
+    </div>
+  </div>
+
+  <nav class="tabs" role="tablist" aria-label="Secciones del tutorial">
+    <button class="tab active" role="tab" id="t-inicio"       data-target="p-inicio"       aria-selected="true"  aria-controls="p-inicio"       type="button">INICIO</button>
+    <button class="tab"        role="tab" id="t-conceptos"    data-target="p-conceptos"    aria-selected="false" aria-controls="p-conceptos"    type="button">CONCEPTOS</button>
+    <button class="tab"        role="tab" id="t-procedimiento" data-target="p-procedimiento" aria-selected="false" aria-controls="p-procedimiento" type="button">PROCEDIMIENTO</button>
+    <button class="tab"        role="tab" id="t-practica"     data-target="p-practica"     aria-selected="false" aria-controls="p-practica"     type="button">PRÁCTICA</button>
+    <button class="tab"        role="tab" id="t-errores"      data-target="p-errores"      aria-selected="false" aria-controls="p-errores"      type="button">ERRORES</button>
+    <button class="tab"        role="tab" id="t-resumen"      data-target="p-resumen"      aria-selected="false" aria-controls="p-resumen"      type="button">RESUMEN</button>
+    <button class="tab"        role="tab" id="t-fuentes"      data-target="p-fuentes"      aria-selected="false" aria-controls="p-fuentes"      type="button">FUENTES</button>
+    <button class="tab"        role="tab" id="t-creditos"     data-target="p-creditos"     aria-selected="false" aria-controls="p-creditos"     type="button">CRÉDITOS</button>
+  </nav>
+
+  <div class="progress-wrap" aria-hidden="true"><div id="progressFill"></div></div>
+  <div class="progress-line">
+    <span>Progreso del tutorial (casillas marcadas): <strong id="ckCount">0 / 0</strong></span>
+    <span><strong id="progressLabel">0%</strong></span>
+  </div>
+</header>
+
+<div id="searchInfo" aria-live="polite"></div>
+
+<!-- ============================================================
+     CONTENIDO
+     ============================================================ -->
+<main>
+
+<!-- ============================================================
+     INICIO
+     ============================================================ -->
+<section id="p-inicio" class="panel active" role="tabpanel" aria-labelledby="t-inicio">
+
+  <h1>El Agente IA Gratuito de Meta</h1>
+  <p class="hero-sub">Tutorial interactivo para <strong>DUMMIES</strong> sobre <strong>Muse AI</strong>: el agente autónomo que trabaja por ti en la nube.</p>
+
+  <div class="hero-svg-mount" data-svg-hero="true" role="img"
+       aria-label="Esquema animado: tu teléfono envía tareas por WhatsApp a una computadora virtual en la nube, donde Muse AI y sus subagentes trabajan en paralelo y producen imágenes, vídeos, aplicaciones y juegos."></div>
+  <p class="svg-caption">Tu teléfono → computadora virtual en la nube (24/7) → Muse AI + subagentes → resultados listos.</p>
+
+  <div class="card">
+    <h2 style="margin-top:6px">¿Qué vas a aprender aquí?</h2>
+    <p class="lead">Este tutorial te lleva <strong>de cero a producir</strong> con Muse AI. No necesitas saber programar, ni diseñar, ni editar vídeo. Solo necesitas entender <em>qué es</em>, <em>para qué sirve</em> y <em>cómo pedirle las cosas</em>.</p>
+    <p>Al terminar serás capaz de:</p>
+    <ul>
+      <li>Entrar a Muse AI desde fuera de Estados Unidos o Canadá (con VPN) y superar el registro sin errores.</li>
+      <li>Moverte por la interfaz: chats, ideas, objetivos, feeds y biblioteca.</li>
+      <li>Generar y <strong>editar imágenes</strong> manteniendo la consistencia de tu rostro.</li>
+      <li>Convertir una imagen fija en un <strong>vídeo con voz y sincronización labial</strong>.</li>
+      <li>Crear <strong>apps web y videojuegos</strong> sin escribir una sola línea de código.</li>
+      <li>Conectar Muse AI a <strong>WhatsApp</strong> y darle órdenes por nota de voz.</li>
+      <li>Automatizar <strong>feeds de noticias, podcasts y conectores</strong> con Google, Meta y más.</li>
+      <li>Gastar la menor cantidad posible de <strong>tokens</strong> (la "gasolina" del agente).</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">¿Para qué sirve Muse AI?</h2>
+    <p>Muse AI no es un chatbot que te responde y se queda esperando. Es un <strong>agente autónomo con su propia computadora virtual en la nube</strong>. Tú le encargas una tarea, él se pone a trabajar en su propia pantalla y te entrega el producto terminado.</p>
+    <div class="grid">
+      <div class="mini">
+        <h4>🎨 Crear contenido</h4>
+        <p>Imágenes publicitarias, edición con consistencia y animación en vídeo para redes.</p>
+      </div>
+      <div class="mini">
+        <h4>🛠️ Software sin programar</h4>
+        <p>Herramientas a medida: un gestor de entrenamiento, un juego, un registro de lecturas…</p>
+      </div>
+      <div class="mini">
+        <h4>📋 Organización personal</h4>
+        <p>Control de vacunación y alimentación de mascotas, resúmenes diarios de noticias.</p>
+      </div>
+      <div class="mini">
+        <h4>🎙️ Producción automatizada</h4>
+        <p>Un podcast semanal sobre el tema que tú elijas, generado automáticamente.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">¿Qué necesitas antes de empezar?</h2>
+    <ul>
+      <li>Un <strong>ordenador o un móvil</strong> con navegador actualizado.</li>
+      <li>Una <strong>VPN</strong> capaz de conectarse a un servidor de <strong>Estados Unidos o Canadá</strong> (Muse AI solo está disponible de forma nativa en esos países).</li>
+      <li>Una <strong>dirección de correo electrónico</strong> a la que puedas acceder para recibir el código de verificación.</li>
+      <li>Una <strong>tarjeta bancaria válida</strong> (débito o crédito). Ojo: <strong>solo se usa para verificar tu edad, no se realiza ningún cobro</strong>.</li>
+      <li>Opcional pero recomendable: <strong>WhatsApp</strong> en el móvil para conectar el agente.</li>
+    </ul>
+    <div class="note">
+      <strong>Nota importante:</strong> si no usas VPN y estás fuera de EE. UU. o Canadá, la plataforma bloqueará el acceso. Es el primer obstáculo y el más fácil de resolver.
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Objetivos del tutorial</h2>
+    <ol>
+      <li>Entender <strong>qué diferencia</strong> a un agente autónomo de un chatbot tradicional.</li>
+      <li>Conseguir <strong>acceso completo</strong> a Muse AI desde tu país.</li>
+      <li>Dominar el <strong>flujo de trabajo por chat</strong>: un proyecto, un chat.</li>
+      <li>Producir <strong>imagen, vídeo, app y juego</strong> con calidad publicable.</li>
+      <li>Automatizar tareas repetitivas y conectarlo con tus herramientas del día a día.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Cómo utilizar este tutorial</h2>
+    <ol>
+      <li><strong>Lee primero CONCEPTOS.</strong> Sin entender qué es un agente y qué es un token, lo demás se vuelve confuso.</li>
+      <li><strong>Ve a PROCEDIMIENTO</strong> y sigue los pasos en orden. Cada paso tiene una sola acción.</li>
+      <li><strong>Copia los prompts.</strong> Verás bloques con un botón <strong>COPIAR</strong>. Pulsa y pega directamente en Muse AI.</li>
+      <li><strong>Practica en PRÁCTICA.</strong> Son ejercicios con solución explicada paso a paso.</li>
+      <li><strong>Consulta ERRORES</strong> cada vez que algo te salga mal. Casi todo está ahí.</li>
+      <li><strong>Marca las casillas</strong> de la checklist: tu progreso se guarda solo en este navegador.</li>
+      <li>Usa <strong>A− / A+</strong> para ajustar el tamaño del texto y el botón <strong>🖨️ Guardar PDF</strong> si quieres el tutorial en papel.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Checklist de aprendizaje</h2>
+    <p>Marca cada punto cuando lo domines. Se guarda automáticamente en tu navegador.</p>
+    <ul class="ck-list">
+      <li><label class="ck-item"><input type="checkbox" class="ck" id="ck1"><span>Entiendo qué es un agente autónomo y en qué se diferencia de un chatbot.</span></label></li>
+      <li><label class="ck-item"><input type="checkbox" class="ck" id="ck2"><span>He conseguido activar la VPN antes de abrir Muse AI.</span></label></li>
+      <li><label class="ck-item"><input type="checkbox" class="ck" id="ck3"><span>He completado el registro (correo, fecha de nacimiento y tarjeta).</span></label></li>
+      <li><label class="ck-item"><input type="checkbox" class="ck" id="ck4"><span>He generado mi primera imagen y le he pedido una modificación concreta.</span></label></li>
+      <li><label class="ck-item"><input type="checkbox" class="ck" id="ck5"><span>He convertido una imagen en un vídeo con voz y movimiento.</span></label></li>
+      <li><label class="ck-item"><input type="checkbox" class="ck" id="ck6"><span>He creado una app o un juego dentro de la plataforma.</span></label></li>
+      <li><label class="ck-item"><input type="checkbox" class="ck" id="ck7"><span>He vinculado Muse AI a WhatsApp por código QR.</span></label></li>
+      <li><label class="ck-item"><input type="checkbox" class="ck" id="ck8"><span>Aplico la regla "un chat nuevo por cada proyecto" para ahorrar tokens.</span></label></li>
+    </ul>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     CONCEPTOS
+     ============================================================ -->
+<section id="p-conceptos" class="panel" role="tabpanel" aria-labelledby="t-conceptos">
+
+  <h1>Conceptos fundamentales</h1>
+  <p class="hero-sub">Antes de tocar nada, entiende qué es Muse AI y por qué cambia las reglas.</p>
+
+  <div class="card">
+    <h2 style="margin-top:6px">¿Qué es Muse AI?</h2>
+    <p><strong>Muse AI</strong> es el agente autónomo de Inteligencia Artificial desarrollado por <strong>Meta</strong>.</p>
+    <p>A diferencia de los chatbots tradicionales (como ChatGPT o Gemini básico), Muse AI <strong>no es solo una ventana de diálogo</strong>: funciona como un <strong>agente personal en la nube con su propia computadora virtual</strong>. Eso le permite ejecutar tareas complejas, programar aplicaciones, generar contenido multimedia e interactuar con servicios externos <strong>de manera independiente</strong>.</p>
+
+    <div class="tip">
+      <strong>En una frase:</strong> un chatbot te <em>responde</em>; Muse AI te <em>hace el trabajo</em>.
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">¿Para qué sirve?</h2>
+    <p>Sirve para <strong>delegar trabajo real</strong>, no solo para hacer preguntas. Ejemplos concretos de lo que puedes pedirle:</p>
+    <ul>
+      <li>Generar imágenes fotorrealistas y editarlas manteniendo la coherencia del personaje.</li>
+      <li>Convertir una imagen estática en un vídeo con locución y sincronización labial.</li>
+      <li>Crear aplicaciones web privadas y funcionales dentro de su propia plataforma.</li>
+      <li>Programar videojuegos jugables desde el navegador.</li>
+      <li>Vincularse a WhatsApp y recibir órdenes por texto o nota de voz.</li>
+      <li>Generar podcasts completos con dos locutores sintéticos.</li>
+      <li>Conectarse a Google Drive, Google Docs, Dropbox, Canva, Spotify, Zoom, GitHub y más.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">¿Por qué es importante aprender a utilizarlo?</h2>
+    <p>Aprender a usar Muse AI representa un <strong>salto cuantitativo en productividad</strong> personal y profesional. Sus cuatro grandes ventajas son:</p>
+    <div class="grid">
+      <div class="mini">
+        <h4>⚙️ Ejecución en segundo plano</h4>
+        <p>Puede seguir trabajando aunque apagues tu ordenador o te desconectes.</p>
+      </div>
+      <div class="mini">
+        <h4>🎁 Acceso gratuito generoso</h4>
+        <p>Hasta <strong>100 millones de tokens semanales</strong> en su plan gratuito, renovables cada semana.</p>
+      </div>
+      <div class="mini">
+        <h4>🧠 Multimodalidad total</h4>
+        <p>Genera y edita imágenes, crea vídeos con locución, desarrolla apps web y videojuegos jugables.</p>
+      </div>
+      <div class="mini">
+        <h4>💬 Integración nativa con WhatsApp</h4>
+        <p>Envía comandos por texto o notas de voz y recibe respuestas habladas.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Situaciones reales de uso</h2>
+    <ul>
+      <li><strong>Creación de contenido:</strong> generar imágenes publicitarias, editarlas con consistencia y animarlas en vídeo para redes sociales.</li>
+      <li><strong>Desarrollo de software sin programar:</strong> crear herramientas a medida, como un gestor de entrenamiento físico o un juego.</li>
+      <li><strong>Organización personal:</strong> llevar el control de vacunación y alimentación de mascotas, o resúmenes de noticias diarias.</li>
+      <li><strong>Producción automatizada:</strong> programar un podcast semanal sobre tu tema de interés.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">La analogía que lo explica todo</h2>
+    <div class="tip">
+      <p><strong>Analogía:</strong> un chatbot tradicional es como un <strong>consultor por teléfono</strong>: te da respuestas cuando le hablas, pero tú tienes que hacer todo el trabajo manual.</p>
+      <p style="margin-bottom:0">Muse AI es como un <strong>asistente personal con su propio ordenador</strong>: le pides una tarea, se pone a trabajar de forma autónoma en su pantalla y te entrega el producto final terminado.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Tabla comparativa: Chatbot tradicional vs. Agente Muse AI</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Característica</th><th>Chatbot tradicional</th><th>Agente Muse AI (Meta)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Entorno de ejecución</strong></td><td>Solo responde en la ventana de chat</td><td>Computadora virtual propia en la nube</td></tr>
+          <tr><td><strong>Trabajo en segundo plano</strong></td><td>Se detiene si cierras el navegador</td><td>Sigue ejecutando tareas con la pantalla apagada</td></tr>
+          <tr><td><strong>Delegación de tareas</strong></td><td>Monolítico (un solo modelo)</td><td>Utiliza <strong>subagentes especializados</strong> en paralelo</td></tr>
+          <tr><td><strong>Integración de mensajería</strong></td><td>Requiere configuración de API compleja</td><td>Conexión directa mediante código QR en WhatsApp</td></tr>
+          <tr><td><strong>Creación de herramientas</strong></td><td>Escribe código para que tú lo ejecutes</td><td>Entrega apps web y videojuegos jugables al instante</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Vocabulario mínimo imprescindible</h2>
+    <p>Si solo te quedas con cinco palabras, que sean estas:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Término</th><th>Qué significa en lenguaje llano</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Agente autónomo</strong></td><td>Sistema de IA que ejecuta tareas completas por sí mismo, sin que le vayas dando el siguiente paso.</td></tr>
+          <tr><td><strong>Computadora virtual</strong></td><td>Un ordenador "de mentira" que existe en la nube y donde el agente trabaja 24/7.</td></tr>
+          <tr><td><strong>Subagente</strong></td><td>Ayudante especializado que trabaja en paralelo en una parte concreta de la tarea.</td></tr>
+          <tr><td><strong>Token</strong></td><td>La unidad con la que se mide el trabajo que hace la IA. Una palabra ≈ 1 o 2 tokens.</td></tr>
+          <tr><td><strong>Prompt</strong></td><td>La instrucción que le escribes. Cuanto más clara, mejor el resultado.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>En la pestaña <strong>RESUMEN</strong> encontrarás el glosario completo.</p>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Resumen del bloque de conceptos</h2>
+    <ul>
+      <li><strong>Muse AI</strong> es el agente de Meta que cuenta con una computadora virtual en la nube.</li>
+      <li>Destaca por su <strong>autonomía</strong>, su cuota semanal gratuita de <strong>100 millones de tokens</strong> y su capacidad para <strong>trabajar en segundo plano</strong>.</li>
+      <li>Permite crear imágenes, vídeos, apps, videojuegos y podcasts, e integrarse directamente con WhatsApp.</li>
+    </ul>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     PROCEDIMIENTO
+     ============================================================ -->
+<section id="p-procedimiento" class="panel" role="tabpanel" aria-labelledby="t-procedimiento">
+
+  <h1>Procedimiento paso a paso</h1>
+  <p class="hero-sub">Ocho bloques de trabajo. Síguelos en orden la primera vez. Después podrás saltar directamente al que necesites.</p>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Índice de bloques</h2>
+    <ol>
+      <li><a href="#bloque1">Acceso y registro (VPN incluida)</a></li>
+      <li><a href="#bloque2">Primeros pasos, interfaz y tokens</a></li>
+      <li><a href="#bloque3">Creación y edición avanzada de imágenes</a></li>
+      <li><a href="#bloque4">Animación y vídeo con locución</a></li>
+      <li><a href="#bloque5">Apps web y subagentes</a></li>
+      <li><a href="#bloque6">Videojuegos 2D y 3D</a></li>
+      <li><a href="#bloque7">WhatsApp y comunicación multimodal</a></li>
+      <li><a href="#bloque8">Automatizaciones, feeds, podcasts y conectores</a></li>
+    </ol>
+  </div>
+
+  <!-- BLOQUE 1 -->
+  <h2 id="bloque1">Bloque 1 — Acceso y registro</h2>
+
+  <div class="card">
+    <h3 style="margin-top:4px">Objetivo</h3>
+    <p>Crear tu cuenta de Muse AI desde un país donde la plataforma no está disponible de forma nativa.</p>
+
+    <h3>Requisitos previos y restricción geográfica</h3>
+    <p>Actualmente, Muse AI solo está disponible de forma nativa para usuarios ubicados en <strong>Estados Unidos y Canadá</strong>. Para acceder desde Europa o América Latina es indispensable utilizar una <strong>VPN</strong>.</p>
+    <div class="note">
+      <strong>VPN (Virtual Private Network):</strong> herramienta digital que redirige tu conexión a través de un servidor en otro país, haciendo que la página web crea que estás físicamente allí.
+    </div>
+
+    <h3>Guía paso a paso</h3>
+
+    <div class="step">
+      <span class="step-num">PASO 1</span>
+      <p><strong>Acción:</strong> abre tu servicio de VPN (por ejemplo, <em>Bitdefender VPN</em> u otro proveedor) y selecciona como ubicación un servidor en <strong>Estados Unidos</strong> o <strong>Canadá</strong>.</p>
+      <p><strong>Motivo:</strong> Muse AI bloquea el acceso a direcciones IP fuera de Norteamérica.</p>
+      <p><strong>Resultado esperado:</strong> la VPN muestra "Conectado" y tu IP aparece como estadounidense o canadiense.</p>
+      <div class="warn">
+        <strong>⚠️ Error común:</strong> si activas la VPN <em>después</em> de abrir la página, el navegador guardará en caché la ubicación bloqueada.
+        <br><strong>Solución:</strong> activa la VPN <em>antes</em> de abrir la web, o utiliza una <strong>ventana de incógnito</strong>.
+      </div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">PASO 2</span>
+      <p><strong>Acción:</strong> navega a la página oficial de Muse AI (puedes acceder mediante el enlace proporcionado en la descripción del vídeo oficial).</p>
+      <p><strong>Motivo:</strong> iniciar el proceso de autenticación de cuenta.</p>
+      <p><strong>Resultado esperado:</strong> ves la pantalla de inicio de sesión o registro.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">PASO 3</span>
+      <p><strong>Acción:</strong> selecciona la opción de registro por correo electrónico, escribe tu dirección y haz clic en <strong>Continuar</strong>. Introduce el código numérico de verificación enviado a tu bandeja de entrada.</p>
+      <p><strong>Motivo:</strong> garantizar la seguridad de la cuenta e impedir registros automatizados masivos.</p>
+      <p><strong>Resultado esperado:</strong> el correo queda verificado y avanzas a la siguiente pantalla.</p>
+      <p><strong>Si algo sale mal:</strong> revisa la carpeta de spam. Si el código no llega en 5 minutos, vuelve a solicitar el envío.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">PASO 4</span>
+      <p><strong>Acción:</strong> selecciona tu fecha de nacimiento y confirma.</p>
+      <p><strong>Motivo:</strong> cumplir con los términos de servicio sobre edad mínima requerida.</p>
+      <p><strong>Resultado esperado:</strong> la plataforma acepta la fecha y continúa.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">PASO 5</span>
+      <p><strong>Acción:</strong> introduce los datos de una tarjeta bancaria válida cuando la plataforma lo solicite.</p>
+      <p><strong>Motivo:</strong> verificar la mayoría de edad del usuario.</p>
+      <p><strong>Resultado esperado:</strong> la validación se completa y accedes a la interfaz principal.</p>
+      <div class="ok">
+        <strong>💡 Consejo de profesional:</strong> <strong>no se realizará ningún cobro</strong>. La plataforma es 100 % gratuita. La tarjeta solo actúa como verificación de edad.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:4px">Checklist de verificación de acceso</h3>
+    <ul class="ck-list">
+      <li><label class="ck-item"><input type="checkbox" class="ck" id="ck9"><span>VPN conectada a servidor de EE. UU. o Canadá.</span></label></li>
+      <li><label class="ck-item"><input type="checkbox" class="ck" id="ck10"><span>Navegador configurado en ventana de incógnito (si surgen fallos).</span></label></li>
+      <li><label class="ck-item"><input type="checkbox" class="ck" id="ck11"><span>Código de verificación de correo introducido correctamente.</span></label></li>
+      <li><label class="ck-item"><input type="checkbox" class="ck" id="ck12"><span>Tarjeta introducida para validación de edad (sin cobro asociado).</span></label></li>
+    </ul>
+    <div class="tip">
+      <strong>Resumen del Bloque 1:</strong> el acceso desde fuera de EE. UU./Canadá exige VPN. La tarjeta solo verifica la edad. El modo incógnito es la mejor solución frente a errores de registro.
+    </div>
+  </div>
+
+  <!-- BLOQUE 2 -->
+  <h2 id="bloque2">Bloque 2 — Primeros pasos, interfaz y tokens</h2>
+
+  <div class="card">
+    <h3 style="margin-top:4px">Objetivo</h3>
+    <p>Entender la pantalla, personalizar a tu agente y aprender a no malgastar tu cuota semanal.</p>
+
+    <h3>Interacción inicial y personalización de la identidad</h3>
+    <p>Al ingresar por primera vez, el agente te saludará cordialmente y te hará <strong>dos preguntas clave</strong> para configurar la relación de trabajo:</p>
+    <ol>
+      <li><strong>Tu nombre:</strong> para dirigirse a ti de forma personalizada (ejemplo: "David").</li>
+      <li><strong>Nombre del agente:</strong> te sugerirá opciones o te permitirá asignarle el nombre que prefieras. En la demostración inicial se le asignó <em>"Jewell"</em> y posteriormente se renombró a <em>"Pip"</em>.</li>
+    </ol>
+
+    <h3>Explicación de la interfaz de usuario</h3>
+    <p>La interfaz se organiza en varios bloques laterales y paneles:</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Panel</th><th>Qué contiene</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Panel izquierdo<br>(Navegación)</strong></td>
+            <td>
+              <strong>Chats:</strong> conversaciones individuales.<br>
+              <strong>Búsquedas &amp; Feeds:</strong> canales de noticias automatizados.<br>
+              <strong>Ideas:</strong> plantillas prediseñadas para tareas complejas.<br>
+              <strong>Objetivos:</strong> definición de metas para el agente.<br>
+              <strong>Biblioteca:</strong> historial ordenado con todas tus aplicaciones, juegos y archivos creados.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Panel central<br>(Área de trabajo)</strong></td>
+            <td>Espacio de chat interactivo y previsualización de archivos multimedia y apps.</td>
+          </tr>
+          <tr>
+            <td><strong>Panel derecho<br>(Barra de estado)</strong></td>
+            <td>Muestra la actividad del agente y sus <strong>subagentes</strong>, detallando qué tareas están ejecutando en tiempo real.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Mascotas y avatares animados</h3>
+    <p>Muse AI incluye un <strong>avatar animado</strong> (un cono o robot) que muestra en tiempo real lo que hace el agente. Por ejemplo, cuando le pides programar, el avatar aparece <strong>tecleando en un portátil virtual</strong>.</p>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:4px">Gestión eficiente del consumo de tokens</h3>
+    <div class="note">
+      <strong>Token:</strong> unidad básica que utilizan los modelos de IA para procesar texto, código o imágenes. Una palabra equivale aproximadamente a 1 o 2 tokens.
+    </div>
+    <ul>
+      <li><strong>Cuota disponible:</strong> <strong>100 millones de tokens semanales</strong> en el plan gratuito.</li>
+      <li><strong>Consumo real probado:</strong> realizar decenas de tareas complejas (imágenes, vídeos, app, juego y podcast) consumió apenas el <strong>6 % de la cuota semanal</strong>.</li>
+    </ul>
+
+    <h3>Truco de experto para ahorrar tokens</h3>
+    <div class="tip">
+      <p><strong>Abre un nuevo chat para cada proyecto independiente.</strong></p>
+      <p style="margin-bottom:0"><strong>Explicación:</strong> si mantienes un solo chat largo, el agente debe releer todo el historial en cada mensaje, lo que consume tokens de forma innecesaria.</p>
+    </div>
+
+    <div class="ok">
+      <strong>Resumen del Bloque 2:</strong> Muse AI permite personalizar su nombre y su avatar. La biblioteca central organiza automáticamente tus proyectos. Abrir un chat nuevo por tema es la mejor práctica para optimizar la cuota semanal.
+    </div>
+  </div>
+
+  <!-- BLOQUE 3 -->
+  <h2 id="bloque3">Bloque 3 — Creación y edición avanzada de imágenes</h2>
+
+  <div class="card">
+    <h3 style="margin-top:4px">Objetivo</h3>
+    <p>Generar una imagen desde cero, integrarte en ella con una foto real y editarla de forma iterativa sin perder la coherencia del personaje.</p>
+
+    <div class="step">
+      <span class="step-num">PASO 1 · Generar la imagen base</span>
+      <p><strong>Acción:</strong> escribe el prompt inicial en el chat de imagen.</p>
+      <p><strong>Motivo:</strong> crear el entorno sobre el que trabajarás después.</p>
+    </div>
+    <div class="copy-wrap">
+      <div class="copy-src">Quiero que me generes una imagen de un paisaje de montaña que sea idílico y además que denote muchísima relajación</div>
+      <button class="copyBtn" type="button">COPIAR</button>
+    </div>
+    <p><strong>Resultado:</strong> una imagen de alta calidad con iluminación natural y ambiente montañoso.</p>
+
+    <hr>
+
+    <h3>Edición iterativa y consistencia de personajes</h3>
+    <p>Una de las mayores fortalezas de Muse AI es <strong>modificar una imagen existente sin perder la coherencia del entorno ni los rasgos del sujeto</strong>.</p>
+
+    <div class="step">
+      <span class="step-num">PASO 2 · Insertar tu foto personal (fotomontaje coherente)</span>
+      <p><strong>Acción:</strong> adjunta una foto tuya y solicita al agente que te integre en el paisaje.</p>
+      <p><strong>Por qué funciona:</strong> el agente analiza las luces, sombras y perspectiva del entorno, y ajusta tu figura respetando tu rostro y vestimenta.</p>
+    </div>
+    <div class="copy-wrap">
+      <div class="copy-src">Tengo esta imagen mía y quiero que la implementes en la imagen que tú me has generado, eso sí debe de quedar perfectamente ajustada al paisaje y yo simplemente tomando una taza de café</div>
+      <button class="copyBtn" type="button">COPIAR</button>
+    </div>
+
+    <div class="step">
+      <span class="step-num">PASO 3 · Cambiar la iluminación y la escena</span>
+      <p><strong>Acción:</strong> solicita cambiar la hora del día y la actividad.</p>
+      <p><strong>Resultado:</strong> la escena cambia a tonos cálidos de atardecer con el personaje junto a una hoguera, manteniendo la misma ropa y rasgos.</p>
+    </div>
+    <div class="copy-wrap">
+      <div class="copy-src">Perfecto, mira, quiero que sea el atardecer y que yo esté preparando un fuego, sobre todo mantén consistencia</div>
+      <button class="copyBtn" type="button">COPIAR</button>
+    </div>
+
+    <div class="step">
+      <span class="step-num">PASO 4 · Corregir elementos sobrantes (edición de precisión)</span>
+      <p><strong>Acción:</strong> si la IA genera un objeto duplicado por error, ordénale eliminarlo de forma <strong>específica</strong>.</p>
+    </div>
+    <div class="copy-wrap">
+      <div class="copy-src">Me parece perfecto, pero yo creo que has creado dos hogueras por lo tanto uno de los fuegos tienes que eliminarlo que es el que está más a la derecha</div>
+      <button class="copyBtn" type="button">COPIAR</button>
+    </div>
+
+    <div class="bad">
+      <strong>❌ Incorrecto:</strong> «La imagen no me gusta, hazla de nuevo.» → <em>Pierdes la consistencia conseguida.</em>
+    </div>
+    <div class="ok">
+      <strong>✅ Correcto:</strong> «Elimina el fuego que está más a la derecha y mantén todo lo demás igual.»
+    </div>
+
+    <div class="tip">
+      <strong>Resumen del Bloque 3:</strong> puedes generar imágenes desde cero e integrar fotografías reales. Permite editar luz, objetos y posturas de forma iterativa conservando la consistencia del personaje.
+    </div>
+  </div>
+
+  <!-- BLOQUE 4 -->
+  <h2 id="bloque4">Bloque 4 — Animación y vídeo con locución</h2>
+
+  <div class="card">
+    <h3 style="margin-top:4px">Objetivo</h3>
+    <p>Transformar una imagen fija en un vídeo que habla, mira a cámara y mantiene tu parecido facial.</p>
+
+    <h3>Convertir imágenes estáticas en vídeo animado</h3>
+    <p>Muse AI transforma imágenes fijas en clips de vídeo con <strong>movimiento de cámara</strong>, <strong>gesticulación</strong> y <strong>sincronización labial</strong> (<em>lip-sync</em>).</p>
+
+    <div class="step">
+      <span class="step-num">PASO 1 · Solicitar la animación con guion de voz</span>
+      <p><strong>Acción:</strong> pide al agente que anime la última imagen creada y le proporcione una frase específica que debe pronunciar.</p>
+    </div>
+    <div class="copy-wrap">
+      <div class="copy-src">Quiero que me generes un vídeo sobre esta última imagen que acabas de generar y que digas esta frase en español de España, levanta la cabeza y mira a cámara y dice: "En este paraíso estoy muy bien pero también estaría bien grabando vídeos en mi estudio."</div>
+      <button class="copyBtn" type="button">COPIAR</button>
+    </div>
+    <p><strong>Resultado:</strong> un vídeo fluido donde el personaje levanta la cabeza, mira a la cámara y habla con acento en español de España perfectamente sincronizado.</p>
+
+    <hr>
+
+    <h3>Reforzar el parecido facial mediante fotos de referencia</h3>
+    <p>Si la toma original es lejana y la IA pierde detalles faciales al animar, puedes adjuntar una imagen de referencia clara.</p>
+
+    <div class="step">
+      <span class="step-num">PASO 2 · Vídeo con consistencia reforzada</span>
+      <p><strong>Acción:</strong> subir la fotografía original en alta resolución junto con el prompt.</p>
+      <p><strong>Resultado:</strong> el avatar resultante mantiene un parecido fidedigno con el usuario real.</p>
+    </div>
+    <div class="copy-wrap">
+      <div class="copy-src">Con todo este prompt que te he dado genera un vídeo y tienes también la imagen de referencia, mantén la consistencia de la imagen</div>
+      <button class="copyBtn" type="button">COPIAR</button>
+    </div>
+
+    <div class="tip">
+      <strong>Resumen del Bloque 4:</strong> se pueden crear vídeos parlantes a partir de cualquier imagen en pocos minutos. Incluye ajuste de acentos e instrucciones de movimiento de cámara. Adjuntar fotos de referencia garantiza el máximo parecido facial.
+    </div>
+  </div>
+
+  <!-- BLOQUE 5 -->
+  <h2 id="bloque5">Bloque 5 — Apps web y delegación a subagentes</h2>
+
+  <div class="card">
+    <h3 style="margin-top:4px">Objetivo</h3>
+    <p>Crear una aplicación web funcional sin escribir código, entendiendo cómo trabajan los subagentes.</p>
+
+    <h3>Creación de aplicaciones funcionales sin programar</h3>
+    <p>Muse AI no solo escribe bloques de código: <strong>compila y despliega aplicaciones web privadas e interactivas</strong> dentro de su propia plataforma.</p>
+
+    <div class="step">
+      <span class="step-num">PASO 1 · Definir los requisitos de la app</span>
+      <p><strong>Acción:</strong> solicita la creación de una app estructurada detallando sus secciones.</p>
+    </div>
+    <div class="copy-wrap">
+      <div class="copy-src">Quiero que me generes una pequeña aplicación para gestionar mi día a día en el gimnasio tanto en fuerza como en cardio y además un apartado de alimentación y que quede reflejado todo en un to-do list</div>
+      <button class="copyBtn" type="button">COPIAR</button>
+    </div>
+
+    <h3>El concepto de subagentes</h3>
+    <p>Durante la creación de la app, en el panel derecho se observa que Muse AI activa <strong>subagentes especializados</strong>.</p>
+    <div class="note">
+      <strong>Subagente:</strong> proceso secundario de IA especializado en una tarea concreta (por ejemplo, escribir la estructura HTML, diseñar el estilo CSS o gestionar la base de datos) que trabaja <strong>en paralelo</strong> bajo las órdenes del agente principal.
+    </div>
+
+    <h3>Resultado final de la aplicación</h3>
+    <p>En un par de minutos, Muse AI entrega una app totalmente operativa con:</p>
+    <ul>
+      <li>Registro de ejercicios de fuerza (series, repeticiones, carga).</li>
+      <li>Registro de cardio y seguimiento de alimentación (desayuno, comida, cena, hidratación).</li>
+      <li>Lista de tareas (<em>To-Do List</em>) interactiva.</li>
+    </ul>
+
+    <div class="tip">
+      <strong>Resumen del Bloque 5:</strong> Muse AI construye aplicaciones web funcionales en cuestión de minutos y utiliza subagentes para dividir el trabajo técnico y acelerar la entrega.
+    </div>
+  </div>
+
+  <!-- BLOQUE 6 -->
+  <h2 id="bloque6">Bloque 6 — Creación y optimización de videojuegos</h2>
+
+  <div class="card">
+    <h3 style="margin-top:4px">Objetivo</h3>
+    <p>Programar un juego jugable desde el navegador y luego pedirle una reescritura completa en 3D.</p>
+
+    <h3>Desarrollo de videojuegos jugables en tiempo récord</h3>
+    <p>El agente es capaz de programar motores gráficos sencillos para ejecutar juegos directamente desde el navegador.</p>
+
+    <div class="step">
+      <span class="step-num">PASO 1 · Solicitar el videojuego inicial</span>
+      <p><strong>Acción:</strong> pide una temática de juego popular.</p>
+    </div>
+    <div class="copy-wrap">
+      <div class="copy-src">Mira Pip, quiero que me generes un juego tipo Call of Duty</div>
+      <button class="copyBtn" type="button">COPIAR</button>
+    </div>
+
+    <div class="step">
+      <span class="step-num">PASO 2 · Responder a las preguntas de configuración</span>
+      <p><strong>Acción:</strong> el agente preguntará por el modo preferido (Soldados, Zombies o Bots). Responde con el que quieras.</p>
+    </div>
+    <div class="copy-wrap">
+      <div class="copy-src">Supervivencia contra zombies</div>
+      <button class="copyBtn" type="button">COPIAR</button>
+    </div>
+    <p><strong>Resultado:</strong> genera un juego en primera persona (FPS) jugable con controles de teclado (WASD) y ratón para disparar y recargar.</p>
+
+    <hr>
+
+    <h3>Iteración y refactorización a 3D</h3>
+    <p>Si el prototipo inicial requiere mejoras de fluidez o gráficos, se le puede pedir una <strong>reescritura completa</strong>.</p>
+
+    <div class="step">
+      <span class="step-num">PASO 3 · Elevar la calidad gráfica y de control</span>
+      <p><strong>Acción:</strong> pide versión 3D, mejor control y máxima calidad.</p>
+    </div>
+    <div class="copy-wrap">
+      <div class="copy-src">El juego me parece brutal pero quiero que sea en 3D, además tenía algún pequeño fallo porque no podía girar muy bien o a lo mejor es que yo no lo sabía manejar, por lo tanto quiero que lo crees en la máxima calidad que tú puedas, además investiga cómo es Call of Duty y lo quiero lo más parecido posible</div>
+      <button class="copyBtn" type="button">COPIAR</button>
+    </div>
+
+    <div class="tip">
+      <strong>Resumen del Bloque 6:</strong> Muse AI permite crear y jugar videojuegos directamente en la plataforma. Puedes ajustar la perspectiva (2D/3D), controles y dificultad mediante sugerencias en el chat.
+    </div>
+  </div>
+
+  <!-- BLOQUE 7 -->
+  <h2 id="bloque7">Bloque 7 — Integración con WhatsApp y comunicación multimodal</h2>
+
+  <div class="card">
+    <h3 style="margin-top:4px">Objetivo</h3>
+    <p>Vincular el agente a tu WhatsApp y darle órdenes por voz, incluso con el ordenador apagado.</p>
+
+    <h3>Conexión directa con WhatsApp</h3>
+    <p>A diferencia de otras plataformas que exigen registros complejos de desarrollador, Muse AI se vincula a WhatsApp mediante un <strong>código QR</strong>.</p>
+
+    <div class="step">
+      <span class="step-num">PASO 1 · Proceso de vinculación</span>
+      <ol style="margin-top:6px">
+        <li>Entra en <strong>Configuración</strong> (icono de dos rayas) &gt; <strong>Canales de mensajes</strong>.</li>
+        <li>Haz clic en <strong>WhatsApp</strong>.</li>
+        <li>Abre WhatsApp en tu teléfono móvil, ve a <strong>Dispositivos vinculados</strong> y escanea el código QR que muestra la pantalla.</li>
+        <li>¡Listo! Muse AI aparecerá como un contacto más en tu agenda.</li>
+      </ol>
+    </div>
+
+    <h3>Interacción por notas de voz</h3>
+    <p>Puedes comunicarte con Muse AI desde WhatsApp enviándole <strong>audios hablados</strong>.</p>
+    <div class="copy-wrap">
+      <div class="copy-src">Hola compañero, ¿tú crees que podrías saludar a mis suscriptores ya que estoy haciendo un vídeo para ellos mostrándote el potencial que tienes?</div>
+      <button class="copyBtn" type="button">COPIAR</button>
+    </div>
+    <p><strong>Respuesta de Muse AI:</strong> el agente procesa el audio y responde enviando un <strong>mensaje de voz hablado</strong> saludando al público y explicando sus funciones.</p>
+
+    <h3>La gran ventaja: servidor en la nube</h3>
+    <p>Debido a que Muse AI funciona sobre una computadora virtual propia en la nube, puedes enviarle mensajes o pedirle tareas por WhatsApp <strong>incluso con tu ordenador portátil apagado</strong>. Las tareas se ejecutarán y se guardarán en tu biblioteca automáticamente.</p>
+
+    <div class="tip">
+      <strong>Resumen del Bloque 7:</strong> vincular WhatsApp solo requiere escanear un QR. Admite notas de voz y responde con audios generados por IA. Funciona 24/7 en la nube, independientemente del estado de tu ordenador.
+    </div>
+  </div>
+
+  <!-- BLOQUE 8 -->
+  <h2 id="bloque8">Bloque 8 — Automatizaciones, feeds, podcasts y conectores</h2>
+
+  <div class="card">
+    <h3 style="margin-top:4px">Objetivo</h3>
+    <p>Personalizar el avatar, crear canales automáticos de información y conectar el agente con tus herramientas.</p>
+
+    <h3>Personalización del avatar y del nombre</h3>
+    <p>Puedes cambiar la identidad visual del asistente en cualquier momento.</p>
+
+    <div class="copy-wrap">
+      <div class="copy-src">Cambia tu nombre a Pip</div>
+      <button class="copyBtn" type="button">COPIAR</button>
+    </div>
+    <div class="copy-wrap">
+      <div class="copy-src">Quiero un mini robot simpático</div>
+      <button class="copyBtn" type="button">COPIAR</button>
+    </div>
+    <div class="copy-wrap">
+      <div class="copy-src">Genérame una imagen del robot que tienes en la esquina superior derecha en medio de Nueva York</div>
+      <button class="copyBtn" type="button">COPIAR</button>
+    </div>
+
+    <hr>
+
+    <h3>Feeds de noticias automatizados</h3>
+    <p>En la pestaña <strong>Feeds</strong>, puedes configurar alertas diarias sobre cualquier temática.</p>
+    <div class="copy-wrap">
+      <div class="copy-src">Quiero que cuando recopiles noticias sean sobre inteligencia artificial, es decir, necesito que cada día me muestres las novedades</div>
+      <button class="copyBtn" type="button">COPIAR</button>
+    </div>
+    <p><strong>Resultado:</strong> cada mañana tendrás un resumen estructurado con la actualidad tecnológica.</p>
+
+    <hr>
+
+    <h3>Plantilla de gestión de mascotas ("Ideas")</h3>
+    <p>En la sección <strong>Ideas</strong>, Muse AI ofrece utilidades preconfiguradas como el seguimiento veterinario de tus animales.</p>
+    <div class="copy-wrap">
+      <div class="copy-src">Tengo un gato que es angora y debe tener unos 10 años y luego tengo un gato esfinge que debe tener unos 4 años, el angora se llama Toto y el esfinge se llama Neo</div>
+      <button class="copyBtn" type="button">COPIAR</button>
+    </div>
+    <p><strong>Resultado:</strong> Muse AI genera un <em>tracker</em> interactivo en la biblioteca para controlar vacunas, tratamientos médicos y marcas de comida para Toto y Neo.</p>
+
+    <hr>
+
+    <h3>Generación automática de podcasts</h3>
+    <p>Muse AI incluye una función para crear programas de radio/podcast completos conducidos por dos locutores sintéticos (<em>Alex</em> y <em>Jordan</em>).</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Ajuste</th><th>Valor de la demostración</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Tema</strong></td><td>Inteligencia Artificial</td></tr>
+          <tr><td><strong>Frecuencia</strong></td><td>Semanal</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Resultado:</strong> en segundos genera un episodio de 4 minutos listo para escuchar o publicar en plataformas como Spotify.</p>
+
+    <hr>
+
+    <h3>Lista de conectores oficiales</h3>
+    <p>Muse AI se conecta de forma directa con aplicaciones de productividad y negocio:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Ecosistema</th><th>Aplicaciones</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Meta</strong></td><td>Instagram, Facebook Messenger</td></tr>
+          <tr><td><strong>Google</strong></td><td>Google Calendar, Google Drive, Google Docs, Google Sheets</td></tr>
+          <tr><td><strong>Productividad y trabajo</strong></td><td>Dropbox, Canva, Spotify, Zoom, GitHub, Administrador Comercial de Meta</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tip">
+      <strong>Resumen del Bloque 8:</strong> permite personalizar el avatar y crear canales automáticos de noticias. Genera herramientas organizativas (como el seguimiento de mascotas) y programas de podcast en audio. Se integra de forma nativa con el ecosistema de Google, Meta y herramientas empresariales.
+    </div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     PRÁCTICA
+     ============================================================ -->
+<section id="p-practica" class="panel" role="tabpanel" aria-labelledby="t-practica">
+
+  <h1>Práctica guiada</h1>
+  <p class="hero-sub">Ejercicios con solución explicada. Copia los prompts, pégalos y observa el resultado.</p>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Ejercicio 1 — Tu foto de perfil en una oficina futurista</h2>
+    <h3>Objetivo</h3>
+    <p>Comprobar que Muse AI puede integrar una foto tuya real en un entorno inventado y después cambiarle la iluminación <strong>sin alterar tu rostro</strong>.</p>
+
+    <h3>Tarea</h3>
+    <p>Crea una imagen tuya en una oficina futurista y luego cámbiale la iluminación a noche sin alterar tu rostro.</p>
+
+    <details class="acc">
+      <summary>Solución explicada paso a paso</summary>
+      <div class="acc-body">
+        <div class="step">
+          <span class="step-num">PASO 1</span>
+          <p><strong>Acción:</strong> abre un chat nuevo y sube tu foto.</p>
+          <p><strong>Motivo:</strong> adjuntar la foto en el primer mensaje le da al agente la referencia facial desde el principio.</p>
+        </div>
+        <div class="copy-wrap">
+          <div class="copy-src">Tengo esta foto mía, intégrala en una oficina futurista trabajando con hologramas.</div>
+          <button class="copyBtn" type="button">COPIAR</button>
+        </div>
+        <div class="step">
+          <span class="step-num">PASO 2</span>
+          <p><strong>Acción:</strong> una vez generada, pide el cambio de luz sin rehacer nada más.</p>
+          <p><strong>Motivo:</strong> pedir "mantén la consistencia" evita que el agente regenere la cara desde cero.</p>
+        </div>
+        <div class="copy-wrap">
+          <div class="copy-src">Mantén la consistencia de mi cara y el entorno, pero cambia la iluminación a nocturna con luces de neón.</div>
+          <button class="copyBtn" type="button">COPIAR</button>
+        </div>
+        <div class="ok">
+          <strong>Qué debes observar:</strong> el entorno cambia a tonos fríos y neón, pero tus rasgos, tu ropa y tu postura se mantienen reconocibles.
+        </div>
+        <div class="warn">
+          <strong>Si algo sale mal:</strong> si el rostro cambia, repite el paso 2 añadiendo «no modifiques mi rostro ni mi ropa, solo la iluminación».
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Ejercicio 2 — Un gestor de lecturas</h2>
+    <h3>Objetivo</h3>
+    <p>Crear una aplicación web privada y funcional sin programar.</p>
+
+    <h3>Tarea</h3>
+    <p>Desarrolla una app web para controlar los libros que lees.</p>
+
+    <details class="acc">
+      <summary>Solución explicada paso a paso</summary>
+      <div class="acc-body">
+        <div class="step">
+          <span class="step-num">PASO 1</span>
+          <p><strong>Acción:</strong> abre un <strong>chat nuevo</strong> e introduce el prompt.</p>
+          <p><strong>Motivo:</strong> un chat nuevo evita arrastrar el historial del ejercicio anterior y ahorra tokens.</p>
+        </div>
+        <div class="copy-wrap">
+          <div class="copy-src">Crea una aplicación privada para gestionar mis libros leídos, lecturas pendientes y un apartado de notas para cada libro.</div>
+          <button class="copyBtn" type="button">COPIAR</button>
+        </div>
+        <div class="step">
+          <span class="step-num">PASO 2</span>
+          <p><strong>Acción:</strong> observa el <strong>panel derecho</strong> mientras se genera.</p>
+          <p><strong>Motivo:</strong> ahí verás los subagentes trabajando en paralelo (estructura, estilos, datos).</p>
+        </div>
+        <div class="step">
+          <span class="step-num">PASO 3</span>
+          <p><strong>Acción:</strong> cuando termine, ve a la <strong>Biblioteca</strong> y localiza la app.</p>
+          <p><strong>Resultado esperado:</strong> la app queda guardada y disponible para abrirla cuando quieras.</p>
+        </div>
+        <div class="ok">
+          <strong>Qué debes observar:</strong> el agente activa sus subagentes y te entrega la app lista en la biblioteca.
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Ejercicio 3 — Seguimiento de tus mascotas</h2>
+    <h3>Objetivo</h3>
+    <p>Usar una plantilla de la sección <strong>Ideas</strong> para crear un registro veterinario útil.</p>
+
+    <h3>Tarea</h3>
+    <p>Crea un <em>tracker</em> para controlar vacunas, tratamientos y alimentación de tus mascotas.</p>
+
+    <details class="acc">
+      <summary>Solución explicada paso a paso</summary>
+      <div class="acc-body">
+        <div class="step">
+          <span class="step-num">PASO 1</span>
+          <p><strong>Acción:</strong> ve a la sección <strong>Ideas</strong> y busca la plantilla de gestión de mascotas.</p>
+          <p><strong>Motivo:</strong> partir de una plantilla preconfigurada es más rápido que pedirla desde cero.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">PASO 2</span>
+          <p><strong>Acción:</strong> describe a tus animales con el máximo detalle (raza, edad y nombre).</p>
+        </div>
+        <div class="copy-wrap">
+          <div class="copy-src">Tengo un gato que es angora y debe tener unos 10 años y luego tengo un gato esfinge que debe tener unos 4 años, el angora se llama Toto y el esfinge se llama Neo</div>
+          <button class="copyBtn" type="button">COPIAR</button>
+        </div>
+        <div class="step">
+          <span class="step-num">PASO 3</span>
+          <p><strong>Acción:</strong> revisa el resultado en la <strong>Biblioteca</strong>.</p>
+          <p><strong>Resultado esperado:</strong> un <em>tracker</em> interactivo con vacunas, tratamientos médicos y marcas de comida para Toto y Neo.</p>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Ejercicio 4 — Podcast semanal automático</h2>
+    <h3>Objetivo</h3>
+    <p>Programar producción de audio recurrente sin intervención manual.</p>
+
+    <h3>Tarea</h3>
+    <p>Configura un podcast semanal sobre un tema que te interese.</p>
+
+    <details class="acc">
+      <summary>Solución explicada paso a paso</summary>
+      <div class="acc-body">
+        <div class="step">
+          <span class="step-num">PASO 1</span>
+          <p><strong>Acción:</strong> abre la función de generación de podcasts.</p>
+          <p><strong>Motivo:</strong> es una función nativa, no hay que pedirla en el chat general.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">PASO 2</span>
+          <p><strong>Acción:</strong> configura el <strong>tema</strong> (por ejemplo: Inteligencia Artificial) y la <strong>frecuencia</strong> (Semanal).</p>
+        </div>
+        <div class="step">
+          <span class="step-num">PASO 3</span>
+          <p><strong>Acción:</strong> escucha el episodio generado.</p>
+          <p><strong>Resultado esperado:</strong> en segundos obtienes un episodio de unos 4 minutos, conducido por los locutores sintéticos <em>Alex</em> y <em>Jordan</em>, listo para escuchar o publicar en plataformas como Spotify.</p>
+        </div>
+        <div class="tip">
+          <strong>Consejo:</strong> combina este ejercicio con el <strong>Feed de noticias</strong> del Bloque 8. Así el podcast se alimenta de la actualidad que tú hayas elegido.
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Checklist de práctica completada</h2>
+    <ul class="ck-list">
+      <li><label class="ck-item"><input type="checkbox" class="ck" id="ck13"><span>He integrado una foto real en un entorno generado.</span></label></li>
+      <li><label class="ck-item"><input type="checkbox" class="ck" id="ck14"><span>He cambiado la iluminación sin perder el rostro.</span></label></li>
+      <li><label class="ck-item"><input type="checkbox" class="ck" id="ck15"><span>He creado una app web y la he encontrado en la Biblioteca.</span></label></li>
+      <li><label class="ck-item"><input type="checkbox" class="ck" id="ck16"><span>He generado un episodio de podcast de principio a fin.</span></label></li>
+    </ul>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     ERRORES
+     ============================================================ -->
+<section id="p-errores" class="panel" role="tabpanel" aria-labelledby="t-errores">
+
+  <h1>Errores frecuentes y cómo evitarlos</h1>
+  <p class="hero-sub">Casi todo lo que puede salir mal está aquí. Revísalo antes de frustrarte.</p>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Los 4 errores que NUNCA debes cometer</h2>
+
+    <div class="bad">
+      <strong>❌ 1. Usar un solo chat para todo</strong><br>
+      Hace que el consumo de tokens se dispare, porque el agente relee todo el historial en cada mensaje.
+      <br><strong>✅ Solución:</strong> abre un chat nuevo por cada proyecto independiente.
+    </div>
+
+    <div class="bad">
+      <strong>❌ 2. Conectar la VPN después de cargar la web</strong><br>
+      Causa fallos de bloqueo de región, porque el navegador ya guardó en caché tu ubicación real.
+      <br><strong>✅ Solución:</strong> activa la VPN <em>antes</em> de abrir la web, o usa una ventana de incógnito.
+    </div>
+
+    <div class="bad">
+      <strong>❌ 3. Pedir cambios borrando todo el contexto</strong><br>
+      Si dices «hazla de nuevo», pierdes la consistencia que ya habías conseguido.
+      <br><strong>✅ Solución:</strong> pide modificaciones <strong>específicas</strong> sobre la imagen o app previa.
+    </div>
+
+    <div class="bad">
+      <strong>❌ 4. Temer cobros en la tarjeta</strong><br>
+      Mucha gente abandona el registro por miedo.
+      <br><strong>✅ Solución:</strong> la tarjeta solo valida la edad; el servicio no realiza cobros.
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Ejemplos correctos e incorrectos</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Situación</th><th>❌ Incorrecto</th><th>✅ Correcto</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Editar una imagen</strong></td>
+            <td>«La imagen no me gusta, hazla de nuevo.»</td>
+            <td>«Elimina el fuego que está más a la derecha y mantén todo lo demás igual.»</td>
+          </tr>
+          <tr>
+            <td><strong>Cambiar de escena</strong></td>
+            <td>«Otra cosa, inventa algo distinto.»</td>
+            <td>«Quiero que sea el atardecer y que yo esté preparando un fuego, sobre todo mantén consistencia.»</td>
+          </tr>
+          <tr>
+            <td><strong>Mejorar un juego</strong></td>
+            <td>«Está mal, arréglalo.»</td>
+            <td>«Quiero que sea en 3D, con la máxima calidad, y que los giros funcionen bien.»</td>
+          </tr>
+          <tr>
+            <td><strong>Organizar el trabajo</strong></td>
+            <td>Seguir en el mismo chat durante semanas.</td>
+            <td>Abrir un chat nuevo por cada proyecto.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Tabla de diagnóstico: «si algo sale mal…»</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Lo que ves</th><th>Causa probable</th><th>Qué hacer</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>La página no carga o da error de región</td>
+            <td>La VPN no está conectada a EE. UU. o Canadá, o se activó tarde</td>
+            <td>Activa la VPN antes de abrir la web; si ya estaba abierta, prueba en ventana de incógnito</td>
+          </tr>
+          <tr>
+            <td>El código de verificación no llega</td>
+            <td>Filtro de spam o dirección mal escrita</td>
+            <td>Revisa spam; si no aparece en 5 minutos, solicita un reenvío</td>
+          </tr>
+          <tr>
+            <td>El rostro cambia entre imágenes</td>
+            <td>No se pidió explícitamente mantener la consistencia</td>
+            <td>Repite el prompt añadiendo «mantén la consistencia de mi cara y el entorno»</td>
+          </tr>
+          <tr>
+            <td>Aparecen objetos duplicados</td>
+            <td>La IA generó un elemento extra</td>
+            <td>Señala exactamente qué elemento eliminar y pide que no se cambie nada más</td>
+          </tr>
+          <tr>
+            <td>El vídeo pierde parecido facial</td>
+            <td>La toma original es demasiado lejana</td>
+            <td>Adjunta la foto original en alta resolución como imagen de referencia</td>
+          </tr>
+          <tr>
+            <td>El juego gira mal o es incómodo</td>
+            <td>Prototipo inicial poco pulido</td>
+            <td>Pide una reescritura completa en 3D con máxima calidad y control mejorado</td>
+          </tr>
+          <tr>
+            <td>Se agotan los tokens antes de tiempo</td>
+            <td>Un único chat gigante con todo el historial</td>
+            <td>Abre un chat nuevo por proyecto</td>
+          </tr>
+          <tr>
+            <td>WhatsApp no vincula</td>
+            <td>QR caducado o sesión mal iniciada</td>
+            <td>Vuelve a Configuración &gt; Canales de mensajes &gt; WhatsApp y genera un QR nuevo</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Regla de oro</h2>
+    <div class="tip">
+      <p style="margin-bottom:0">Cuando algo no te guste, <strong>no borres el contexto</strong>. Describe con precisión qué sobra, qué falta o qué debe cambiar, y añade siempre <strong>«mantén todo lo demás igual»</strong>.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     RESUMEN
+     ============================================================ -->
+<section id="p-resumen" class="panel" role="tabpanel" aria-labelledby="t-resumen">
+
+  <h1>Resumen general, glosario y FAQ</h1>
+  <p class="hero-sub">Todo lo aprendido, comprimido para repasar en cinco minutos.</p>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Resumen general de todo lo aprendido</h2>
+    <ol>
+      <li>Configurar el acceso a <strong>Muse AI</strong> mediante VPN y solventar errores de registro.</li>
+      <li>Crear y editar imágenes fotorrealistas de forma iterativa y con consistencia facial.</li>
+      <li>Animarlas en clips de vídeo parlantes en español con control de movimiento.</li>
+      <li>Desarrollar apps web y juegos 3D delegando tareas a subagentes.</li>
+      <li>Conectar Muse AI con WhatsApp para operar por notas de voz con el ordenador apagado.</li>
+      <li>Automatizar podcasts, resúmenes de noticias y la gestión diaria de tareas.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Tabla de conceptos clave</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Concepto</th><th>Definición rápida</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Agente autónomo</strong></td><td>Sistema de IA que ejecuta tareas completas por sí mismo.</td></tr>
+          <tr><td><strong>Computadora virtual</strong></td><td>Entorno en la nube donde corre el agente 24/7.</td></tr>
+          <tr><td><strong>Subagente</strong></td><td>Proceso secundario que realiza tareas especializadas en paralelo.</td></tr>
+          <tr><td><strong>Consistencia facial</strong></td><td>Capacidad de mantener los mismos rasgos humanos en múltiples imágenes o vídeos.</td></tr>
+          <tr><td><strong>Tokens semanales</strong></td><td>Saldo de procesamiento renovable asignado en la cuenta gratuita (100 M).</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Glosario de términos técnicos</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Término</th><th>Significado</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Agente de IA</strong></td><td>Software inteligente capaz de tomar decisiones y ejecutar acciones autónomas para alcanzar un objetivo.</td></tr>
+          <tr><td><strong>Avatar</strong></td><td>Representación gráfica animada del asistente virtual.</td></tr>
+          <tr><td><strong>Feed</strong></td><td>Canal o flujo de información actualizado periódicamente.</td></tr>
+          <tr><td><strong>FPS (First Person Shooter)</strong></td><td>Videojuego de disparos desde la perspectiva en primera persona.</td></tr>
+          <tr><td><strong>Incógnito (modo)</strong></td><td>Función del navegador que no guarda historial ni cookies previas.</td></tr>
+          <tr><td><strong>Lip-Sync</strong></td><td>Sincronización automática de los movimientos de los labios con el sonido de la voz.</td></tr>
+          <tr><td><strong>Prompt</strong></td><td>Instrucción o texto de entrada que se le proporciona a una Inteligencia Artificial para obtener un resultado determinado.</td></tr>
+          <tr><td><strong>Subagente</strong></td><td>IA subordinada que resuelve una parte específica de un problema complejo.</td></tr>
+          <tr><td><strong>Token</strong></td><td>Unidad de medida utilizada para contabilizar el volumen de texto o datos procesados por la IA.</td></tr>
+          <tr><td><strong>VPN</strong></td><td>Red Privada Virtual utilizada para simular una ubicación geográfica diferente.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Preguntas frecuentes</h2>
+
+    <details class="acc">
+      <summary>¿Muse AI es realmente gratis?</summary>
+      <div class="acc-body">
+        <p>Sí. El plan gratuito ofrece hasta <strong>100 millones de tokens semanales</strong>, renovables cada semana. La tarjeta bancaria se solicita únicamente como verificación de edad y <strong>no se realiza ningún cobro</strong>.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary>¿Puedo usarlo desde España o Latinoamérica?</summary>
+      <div class="acc-body">
+        <p>Sí, pero necesitas una <strong>VPN</strong> conectada a un servidor de <strong>Estados Unidos o Canadá</strong>. Actívala <em>antes</em> de abrir la web.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary>¿Tengo que dejar el ordenador encendido?</summary>
+      <div class="acc-body">
+        <p>No. Muse AI corre sobre una <strong>computadora virtual en la nube</strong>. Puede seguir trabajando aunque apagues tu ordenador o te desconectes. Las tareas quedan guardadas en tu biblioteca.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary>¿Cuánto gasta una tarea compleja?</summary>
+      <div class="acc-body">
+        <p>En la prueba real documentada, realizar decenas de tareas complejas (imágenes, vídeo, app, juego y podcast) consumió apenas el <strong>6 % de la cuota semanal</strong>.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary>¿Qué hago si el resultado no me gusta?</summary>
+      <div class="acc-body">
+        <p>No borres el contexto. Pide un cambio <strong>específico</strong> («elimina el objeto de la derecha») y añade «mantén todo lo demás igual». Así conservas la consistencia.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary>¿Puedo hablarle por voz?</summary>
+      <div class="acc-body">
+        <p>Sí. Una vez vinculado a WhatsApp, puedes enviarle <strong>notas de voz</strong> y él responde con un mensaje de voz hablado generado por IA.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary>¿Con qué aplicaciones se conecta?</summary>
+      <div class="acc-body">
+        <p>Con el ecosistema <strong>Meta</strong> (Instagram, Facebook Messenger), con <strong>Google</strong> (Calendar, Drive, Docs, Sheets) y con herramientas de productividad y trabajo como <strong>Dropbox, Canva, Spotify, Zoom, GitHub</strong> y el Administrador Comercial de Meta.</p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary>¿Necesito saber programar?</summary>
+      <div class="acc-body">
+        <p>No. Muse AI compila y despliega las aplicaciones y los juegos dentro de su propia plataforma. Tú describes lo que quieres; los subagentes se encargan de la parte técnica.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Recomendaciones para seguir aprendiendo</h2>
+    <ul>
+      <li>Explora la pestaña <strong>Ideas</strong> para descubrir nuevas plantillas automatizadas.</li>
+      <li>Prueba a conectar tus aplicaciones de trabajo habituales (Google Drive, Docs, Zoom) para delegar la redacción de resúmenes.</li>
+      <li>Utiliza las <strong>notas de voz</strong> en WhatsApp para gestionar recordatorios de tu día a día.</li>
+    </ul>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     FUENTES
+     ============================================================ -->
+<section id="p-fuentes" class="panel" role="tabpanel" aria-labelledby="t-fuentes">
+
+  <h1>Fuentes y enlaces de referencia</h1>
+  <p class="hero-sub">Todo el contenido de este tutorial proviene de las siguientes fuentes. Los enlaces se muestran en texto plano para que puedas copiarlos con un clic.</p>
+
+  <div class="card">
+    <h2 style="margin-top:6px">1. Título del vídeo de YouTube</h2>
+    <div class="copy-wrap">
+      <div class="copy-src">BOMBAZO… ¡Un Agente IA que hace de TODO GRATIS! Así es Muse AI</div>
+      <button class="copyBtn" type="button">COPIAR</button>
+    </div>
+
+    <h2>2. Canal de YouTube</h2>
+    <div class="copy-wrap">
+      <div class="copy-src">NextGen IA Hub</div>
+      <button class="copyBtn" type="button">COPIAR</button>
+    </div>
+    <p>Presentado por <strong>David</strong>.</p>
+
+    <h2>3. URL del vídeo</h2>
+    <div class="copy-wrap">
+      <div class="copy-src">https://youtube.com/watch?v=dGvi5TSYsvo&is=_N_U4bKi8Gvt1UCT</div>
+      <button class="copyBtn" type="button">COPIAR</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Nota sobre el contenido</h2>
+    <div class="note">
+      <p style="margin-bottom:0">Este tutorial es una <strong>reorganización pedagógica</strong> del material original, ampliada con explicaciones, ejemplos, ejercicios y glosario para facilitar el aprendizaje. No se han añadido funciones, datos ni procedimientos que no estén respaldados por la fuente.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     CRÉDITOS
+     ============================================================ -->
+<section id="p-creditos" class="panel" role="tabpanel" aria-labelledby="t-creditos">
+
+  <h1>Créditos</h1>
+
+  <!-- SVG ARRIBA DEL TODO: justo bajo el título y antes de la tarjeta del autor -->
+  <div class="hero-svg-mount" data-svg-hero="true" role="img"
+       aria-label="Esquema animado: tu teléfono envía tareas por WhatsApp a una computadora virtual en la nube, donde Muse AI y sus subagentes trabajan en paralelo y producen imágenes, vídeos, aplicaciones y juegos."></div>
+  <p class="svg-caption">Muse AI: tu agente en la nube, trabajando 24/7 mientras tú haces otra cosa.</p>
+
+  <div class="author-card">
+    <p class="author-name">Rubén Sbarsky</p>
+    <p class="author-role">Autor del tutorial</p>
+    <div class="meta-row">
+      <span class="meta-chip">08/10/2026 — 14:32:10</span>
+      <span class="meta-chip">Versión V001</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Sobre este tutorial</h2>
+    <p>Tutorial interactivo de un solo archivo HTML, sin dependencias externas ni conexión a Internet. Reorganiza y amplía pedagógicamente el material original del vídeo <em>«BOMBAZO… ¡Un Agente IA que hace de TODO GRATIS! Así es Muse AI»</em> del canal <strong>NextGen IA Hub</strong>.</p>
+    <p>Incluye pestañas, SVG animado compartido entre INICIO y CRÉDITOS, buscador, control de tamaño de texto, modo claro/oscuro, impresión a PDF, checklists con progreso guardado y botones de copiado.</p>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Información de versión</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Campo</th><th>Valor</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Autor</strong></td><td>Rubén Sbarsky</td></tr>
+          <tr><td><strong>Rol</strong></td><td>Autor del tutorial</td></tr>
+          <tr><td><strong>Fecha de creación</strong></td><td>08/10/2026</td></tr>
+          <tr><td><strong>Hora de creación</strong></td><td>14:32:10 (24 h)</td></tr>
+          <tr><td><strong>Versión del archivo</strong></td><td>V001</td></tr>
+          <tr><td><strong>Nombre sugerido</strong></td><td>tutorial-muse-ai_V001.html</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <strong>Nota sobre el versionado:</strong> si este archivo se corrige y se vuelve a entregar, hay que subir la versión en el nombre (V001 → V002) y actualizarla también aquí. Así se evita que el navegador muestre una copia antigua guardada en caché.
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:6px">Fuente original</h2>
+    <div class="copy-wrap">
+      <div class="copy-src">https://youtube.com/watch?v=dGvi5TSYsvo&is=_N_U4bKi8Gvt1UCT</div>
+      <button class="copyBtn" type="button">COPIAR</button>
+    </div>
+  </div>
+
+</section>
+
+</main>
+
+<button id="toTop" class="to-top" type="button" aria-label="Volver arriba">↑</button>
+
+<div id="printWarn" role="alert">
+  <strong>La impresión no ha respondido.</strong> Abre este archivo directamente en el navegador (no dentro de un visor o previsualizador) y pulsa <strong>Ctrl+P</strong> / <strong>Cmd+P</strong>.
+  <button type="button" aria-label="Cerrar aviso" onclick="document.getElementById('printWarn').classList.remove('show')">✕</button>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ============================================================
+     UTILIDADES
+     ============================================================ */
+  function $(s, r){ return (r || document).querySelector(s); }
+  function $$(s, r){ return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+
+  /* ============================================================
+     ESTADO PERSISTENTE
+     ============================================================ */
+  var KEY = 'museai_tutorial_v001';
+  var state = { ck:{}, visited:{}, theme:'dark', fs:16 };
+
+  try {
+    var raw = localStorage.getItem(KEY);
+    if (raw) {
+      var parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object') {
+        state.ck      = parsed.ck      || {};
+        state.visited = parsed.visited || {};
+        state.theme   = parsed.theme   || 'dark';
+        state.fs      = parsed.fs      || 16;
+      }
+    }
+  } catch(e){ /* almacenamiento no disponible */ }
+
+  function saveState(){
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){}
+  }
+
+  /* ============================================================
+     TEMA CLARO / OSCURO
+     ============================================================ */
+  function applyTheme(){
+    var light = (state.theme === 'light');
+    document.body.classList.toggle('light', light);
+    var b = $('#btnTheme');
+    if (b) b.textContent = light ? '🌙 Oscuro' : '☀️ Claro';
+  }
+
+  /* ============================================================
+     TAMAÑO DE TEXTO
+     ============================================================ */
+  function applyFs(){
+    var v = Math.max(13, Math.min(22, state.fs || 16));
+    state.fs = v;
+    document.documentElement.style.setProperty('--fs', v + 'px');
+  }
+
+  /* ============================================================
+     PROGRESO
+     ============================================================ */
+  function updateProgress(){
+    var all = $$('.ck');
+    var done = all.filter(function(c){ return c.checked; }).length;
+    var pct = all.length ? Math.round((done / all.length) * 100) : 0;
+    var fill = $('#progressFill');
+    if (fill) fill.style.width = pct + '%';
+    var lbl = $('#progressLabel');
+    if (lbl) lbl.textContent = pct + '%';
+    var cnt = $('#ckCount');
+    if (cnt) cnt.textContent = done + ' / ' + all.length;
+  }
+
+  /* ============================================================
+     SVG ANIMADO — PLANTILLA ÚNICA + MONTAJE CON innerHTML
+     ============================================================ */
+  var seq = 0, TPL = null, imgMode = false;
+
+  function template(){
+    if (TPL) return TPL;
+    var src = document.getElementById('svgHeroSource');
+    if (!src) { TPL = { defs:'', art:'' }; return TPL; }
+
+    var defsNode = src.querySelector('defs');
+    var artNode  = src.querySelector('#svgHero');
+    if (!defsNode || !artNode) { TPL = { defs:'', art:'' }; return TPL; }
+
+    var d = defsNode.cloneNode(true);
+    var g = artNode.cloneNode(true);
+
+    var inner = d.querySelector('#svgHero');
+    if (inner && inner.parentNode) inner.parentNode.removeChild(inner);
+    g.removeAttribute('id');
+
+    TPL = { defs: d.innerHTML, art: g.outerHTML };
+
+    /* Eliminar el SVG fuente para que no siga animándose oculto */
+    if (src.parentNode) src.parentNode.removeChild(src);
+    return TPL;
+  }
+
+  function markup(uid){
+    var t = template();
+    var s = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 260" '
+          + 'width="100%" height="260" preserveAspectRatio="xMidYMid meet" aria-hidden="true" '
+          + 'focusable="false"><defs>' + t.defs + '</defs>' + t.art + '</svg>';
+
+    /* Ids únicos por copia */
+    var ids = [], re = /id="([^"]+)"/g, m;
+    while ((m = re.exec(s))) { ids.push(m[1]); }
+
+    ids.forEach(function(id){
+      var nid = id + '-' + uid;
+      s = s.split('id="' + id + '"').join('id="' + nid + '"')
+           .split('url(#' + id + ')').join('url(#' + nid + ')')
+           .split('href="#' + id + '"').join('href="#' + nid + '"');
+    });
+    return s;
+  }
+
+  function mountOne(m){
+    if (!m) return;
+    m.textContent = '';
+
+    if (imgMode){
+      var im = new Image();
+      im.alt = m.getAttribute('aria-label') || '';
+      im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(markup('i' + (++seq)));
+      m.appendChild(im);
+      return;
+    }
+
+    m.innerHTML = markup('h' + (++seq));
+    var svg = m.querySelector('svg');
+    if (!svg) return;
+
+    try { svg.setCurrentTime(0); svg.unpauseAnimations(); } catch(e){}
+
+    var t0 = 0;
+    try { t0 = svg.getCurrentTime(); } catch(e){}
+
+    setTimeout(function(){
+      if (document.hidden) return;
+      if (m.querySelector('svg') !== svg) return;
+
+      var h = 0, now = 0;
+      try { h = svg.getBoundingClientRect().height; } catch(e){}
+      try { now = svg.getCurrentTime(); } catch(e){}
+
+      if (h > 0 && (now - t0) < 0.3){
+        imgMode = true;
+        mountOne(m);
+      }
+    }, 1600);
+  }
+
+  function mountActive(){
+    $$('.panel.active [data-svg-hero]').forEach(function(m){ mountOne(m); });
+  }
+
+  function mountAll(){
+    $$('[data-svg-hero]').forEach(function(m){ mountOne(m); });
+  }
+
+  function freezeAll(){
+    $$('[data-svg-hero] svg').forEach(function(s){
+      try { s.pauseAnimations(); s.setCurrentTime(2.6); } catch(e){}
+    });
+  }
+
+  function thawAll(){
+    $$('[data-svg-hero] svg').forEach(function(s){
+      try { s.unpauseAnimations(); } catch(e){}
+    });
+  }
+
+  /* Red de seguridad: remonta si el contenedor visible está vacío */
+  setInterval(function(){
+    if (document.hidden) return;
+    $$('.panel.active [data-svg-hero]').forEach(function(m){
+      if (!m.firstElementChild) mountOne(m);
+    });
+  }, 800);
+
+  /* ============================================================
+     PESTAÑAS
+     ============================================================ */
+  function activateTab(id, doScroll){
+    var target = document.getElementById(id);
+    if (!target || !target.classList.contains('panel')) return;
+
+    $$('.panel').forEach(function(p){
+      p.classList.toggle('active', p === target);
+    });
+
+    $$('.tab').forEach(function(b){
+      var on = (b.getAttribute('data-target') === id);
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+      b.setAttribute('tabindex', on ? '0' : '-1');
+    });
+
+    state.visited[id] = 1;
+    saveState();
+
+    /* Montar el SVG del panel recién activado */
+    mountActive();
+
+    if (doScroll !== false) {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+  }
+
+  function bindTabs(){
+    $$('.tab').forEach(function(b){
+      b.addEventListener('click', function(){
+        activateTab(b.getAttribute('data-target'), true);
+      });
+    });
+  }
+
+  /* ============================================================
+     CHECKLISTS
+     ============================================================ */
+  function bindChecklists(){
+    $$('.ck').forEach(function(cb){
+      if (!cb.id) cb.id = 'ck_auto_' + Math.random().toString(36).slice(2, 9);
+      if (state.ck[cb.id]) cb.checked = true;
+
+      cb.addEventListener('change', function(){
+        if (cb.checked) state.ck[cb.id] = 1;
+        else delete state.ck[cb.id];
+        saveState();
+        updateProgress();
+      });
+    });
+  }
+
+  /* ============================================================
+     COPIAR AL PORTAPAPELES
+     ============================================================ */
+  function fallbackCopy(text, ok){
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.top = '-1000px';
+    ta.style.left = '-1000px';
+    document.body.appendChild(ta);
+    ta.select();
+    ta.setSelectionRange(0, ta.value.length);
+    var done = false;
+    try { done = document.execCommand('copy'); } catch(e){ done = false; }
+    document.body.removeChild(ta);
+    if (done) ok();
+    else alert('No se pudo copiar automáticamente. Selecciona el texto y pulsa Ctrl+C.');
+  }
+
+  function copyText(text, btn){
+    var ok = function(){
+      var old = btn.getAttribute('data-label') || btn.textContent;
+      btn.setAttribute('data-label', old);
+      btn.textContent = '✓ COPIADO';
+      btn.classList.add('ok');
+      setTimeout(function(){
+        btn.textContent = old;
+        btn.classList.remove('ok');
+      }, 1500);
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(ok).catch(function(){
+        fallbackCopy(text, ok);
+      });
+    } else {
+      fallbackCopy(text, ok);
+    }
+  }
+
+  function bindCopy(){
+    document.addEventListener('click', function(ev){
+      var btn = ev.target && ev.target.closest ? ev.target.closest('.copyBtn') : null;
+      if (!btn) return;
+      ev.preventDefault();
+
+      var wrap = btn.closest('.copy-wrap');
+      var src = wrap ? wrap.querySelector('.copy-src') : null;
+      var text = src ? src.textContent : (btn.getAttribute('data-copy') || '');
+      text = text.replace(/^\s+|\s+$/g, '');
+      copyText(text, btn);
+    });
+  }
+
+  /* ============================================================
+     BUSCADOR
+     ============================================================ */
+  function clearHighlight(root){
+    $$('mark.search-hl', root).forEach(function(m){
+      var p = m.parentNode;
+      if (!p) return;
+      p.replaceChild(document.createTextNode(m.textContent), m);
+      p.normalize();
+    });
+  }
+
+  function highlight(root, term){
+    if (!term || term.length < 2) return 0;
+
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function(n){
+        if (!n.nodeValue || !n.nodeValue.replace(/\s/g,'')) return NodeFilter.FILTER_REJECT;
+        var p = n.parentNode;
+        if (!p) return NodeFilter.FILTER_REJECT;
+        var tag = p.nodeName ? p.nodeName.toLowerCase() : '';
+        if (tag === 'script' || tag === 'style' || tag === 'mark' || tag === 'textarea') {
+          return NodeFilter.FILTER_REJECT;
+        }
+        if (p.closest && p.closest('svg')) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+
+    var nodes = [], n;
+    while ((n = walker.nextNode())) nodes.push(n);
+
+    var needle = term.toLowerCase();
+    var count = 0;
+
+    nodes.forEach(function(node){
+      var text = node.nodeValue;
+      var lower = text.toLowerCase();
+      var idx = lower.indexOf(needle);
+      if (idx === -1) return;
+
+      var frag = document.createDocumentFragment();
+      var pos = 0;
+
+      while (idx !== -1){
+        if (idx > pos) frag.appendChild(document.createTextNode(text.slice(pos, idx)));
+        var mark = document.createElement('mark');
+        mark.className = 'search-hl';
+        mark.textContent = text.slice(idx, idx + term.length);
+        frag.appendChild(mark);
+        count++;
+        pos = idx + term.length;
+        idx = lower.indexOf(needle, pos);
+      }
+
+      if (pos < text.length) frag.appendChild(document.createTextNode(text.slice(pos)));
+      if (node.parentNode) node.parentNode.replaceChild(frag, node);
+    });
+
+    return count;
+  }
+
+  function setSearchInfo(txt){
+    var el = $('#searchInfo');
+    if (el) el.textContent = txt || '';
+  }
+
+  function runSearch(term){
+    $$('.panel').forEach(clearHighlight);
+
+    var q = (term || '').replace(/^\s+|\s+$/g, '');
+    if (q.length < 2){ setSearchInfo(''); return; }
+
+    var total = 0, firstPanel = null;
+    $$('.panel').forEach(function(p){
+      var c = highlight(p, q);
+      if (c > 0 && !firstPanel) firstPanel = p;
+      total += c;
+    });
+
+    if (total > 0){
+      setSearchInfo(total + ' coincidencia' + (total === 1 ? '' : 's') + ' para «' + q + '»');
+
+      if (firstPanel && !firstPanel.classList.contains('active')){
+        activateTab(firstPanel.id, false);
+      }
+      var firstMark = firstPanel ? firstPanel.querySelector('mark.search-hl') : null;
+      if (firstMark && firstMark.scrollIntoView){
+        try { firstMark.scrollIntoView({ block:'center', behavior:'smooth' }); } catch(e){}
+      }
+    } else {
+      setSearchInfo('Sin coincidencias para «' + q + '»');
+    }
+  }
+
+  /* ============================================================
+     IMPRIMIR / PDF
+     ============================================================ */
+  var closedDetails = [];
+
+  function inIframe(){
+    try { return window.self !== window.top; } catch(e){ return true; }
+  }
+
+  function showPrintWarning(){
+    var w = $('#printWarn');
+    if (w) w.classList.add('show');
+  }
+
+  function beforePrint(){
+    /* Abrir todos los <details> y recordar los que estaban cerrados */
+    closedDetails = [];
+    $$('details').forEach(function(d){
+      if (!d.open){ closedDetails.push(d); d.open = true; }
+    });
+
+    /* Montar el SVG de TODAS las pestañas, aunque no se hayan visitado */
+    mountAll();
+
+    /* Fijar en un fotograma completo */
+    freezeAll();
+  }
+
+  function afterPrint(){
+    /* Restaurar los <details> que estaban cerrados */
+    closedDetails.forEach(function(d){ d.open = false; });
+    closedDetails = [];
+
+    /* Reanudar la animación */
+    thawAll();
+  }
+
+  function doPrint(){
+    beforePrint();
+
+    setTimeout(function(){
+      var printed = false;
+      try {
+        window.print();          /* Documento REAL: conserva los checkboxes marcados */
+        printed = true;
+      } catch(e){
+        printed = false;
+      }
+
+      setTimeout(function(){
+        if (!printed || inIframe()) showPrintWarning();
+      }, 350);
+
+      /* En navegadores donde print() es bloqueante, ya se ha disparado afterprint */
+      setTimeout(afterPrint, 600);
+    }, 140);
+  }
+
+  /* ============================================================
+     BOTÓN VOLVER ARRIBA
+     ============================================================ */
+  function bindToTop(){
+    var btn = $('#toTop');
+    if (!btn) return;
+
+    function onScroll(){
+      btn.classList.toggle('show', window.scrollY > 420);
+    }
+    window.addEventListener('scroll', onScroll, { passive:true });
+    onScroll();
+
+    btn.addEventListener('click', function(){
+      window.scrollTo({ top:0, behavior:'smooth' });
+    });
+  }
+
+  /* ============================================================
+     INICIALIZACIÓN
+     ============================================================ */
+  function init(){
+    applyTheme();
+    applyFs();
+
+    bindTabs();
+    bindChecklists();
+    bindCopy();
+    bindToTop();
+
+    /* Botones de herramientas */
+    var bMinus = $('#btnMinus');
+    if (bMinus) bMinus.addEventListener('click', function(){
+      state.fs = Math.max(13, (state.fs || 16) - 1);
+      applyFs(); saveState();
+    });
+
+    var bPlus = $('#btnPlus');
+    if (bPlus) bPlus.addEventListener('click', function(){
+      state.fs = Math.min(22, (state.fs || 16) + 1);
+      applyFs(); saveState();
+    });
+
+    var bTheme = $('#btnTheme');
+    if (bTheme) bTheme.addEventListener('click', function(){
+      state.theme = (state.theme === 'light') ? 'dark' : 'light';
+      applyTheme(); saveState();
+    });
+
+    var bPrint = $('#btnPrint');
+    if (bPrint) bPrint.addEventListener('click', doPrint);
+
+    /* Buscador */
+    var input = $('#searchInput');
+    if (input){
+      var t = null;
+      input.addEventListener('input', function(){
+        var v = input.value;
+        clearTimeout(t);
+        t = setTimeout(function(){ runSearch(v); }, 260);
+      });
+      input.addEventListener('keydown', function(ev){
+        if (ev.key === 'Escape'){ input.value = ''; runSearch(''); }
+      });
+    }
+
+    /* Eventos nativos de impresión */
+    window.addEventListener('beforeprint', beforePrint);
+    window.addEventListener('afterprint', afterPrint);
+
+    /* Panel inicial: hash de la URL o INICIO */
+    var hash = (location.hash || '').replace('#', '');
+    var startId = 'p-inicio';
+    if (hash){
+      var el = document.getElementById(hash);
+      if (el && el.classList.contains('panel')) startId = hash;
+    }
+
+    activateTab(startId, false);
+
+    /* Enlaces internos del índice */
+    $$('a[href^="#"]').forEach(function(a){
+      a.addEventListener('click', function(ev){
+        var id = a.getAttribute('href').replace('#', '');
+        var el = document.getElementById(id);
+        if (el && el.classList.contains('panel')){
+          ev.preventDefault();
+          activateTab(id, false);
+          setTimeout(function(){
+            var target = document.getElementById(id);
+            if (target && target.scrollIntoView) target.scrollIntoView({ behavior:'smooth', block:'start' });
+          }, 60);
+        }
+      });
+    });
+
+    updateProgress();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+})();
+</script>
+
+</body>
+</html>
